@@ -34,18 +34,18 @@ A full-stack multi-agent collaborative software engineering system where each AI
 
 ## 🤖 Meet the Agents
 
-| # | Agent | Role | LLM Model | Cubicle |
-|---|-------|------|-----------|---------|
-| 1 | **Alex Vance** | Lead System Architect (Queen) | Claude 3.7 Sonnet | Architect Suite |
-| 2 | **Maya Lin** | Frontend Pixel Specialist | GPT-4o | Frontend Station 1 |
-| 3 | **Devon Miller** | Backend Core Engineer | Gemini 2.5 Flash | Backend Lab |
-| 4 | **Sam Carter** | QA & Security Auditor | DeepSeek R1 | QA & Audit Hub |
-| 5 | **Riley Davis** | DevOps & Cloud Specialist | Llama 3 Local | Pod Station A |
-| 6 | **Marcus Vance** | Data Systems Specialist | GPT-4o-mini | Pod Station B |
-| 7 | **Elena Rostova** | Cyber Security Sentinel | Claude 3.5 Sonnet | Security Vault |
-| 8 | **Viktor Krum** | Machine Learning Engineer | Gemini Pro | AI Systems Lab |
-| 9 | **Zara Chen** | Site Reliability Engineer | Claude 3.5 | DevOps Operations |
-| 10 | **Kai Tanaka** | Product & UX Architect | GPT-4o | Product Spec Hub |
+| # | Agent | Role | API Model (OpenRouter) | Task Category |
+|---|-------|------|------------------------|---------------|
+| 1 | **Alex Vance** | Lead System Architect (Queen) | NVIDIA Nemotron 3 Ultra 550B | Thinking & Planning |
+| 2 | **Maya Lin** | Frontend Pixel Specialist | Recraft V4.1 Vector | Image Gen & Graphics |
+| 3 | **Devon Miller** | Backend Core Engineer | Cohere North Mini Code | Coding & Implementation |
+| 4 | **Sam Carter** | QA & Security Auditor | Ling 3.0 Flash | Researching & Analysis |
+| 5 | **Riley Davis** | DevOps & Cloud Specialist | Recraft V4.1 Vector | Image Gen & Graphics |
+| 6 | **Marcus Vance** | Data Systems Specialist | Cohere North Mini Code | Coding & Implementation |
+| 7 | **Elena Rostova** | Cyber Security Sentinel | NVIDIA Nemotron 3 Ultra 550B | Thinking & Planning |
+| 8 | **Viktor Krum** | Machine Learning Engineer | Recraft V4.1 Vector | Image Gen & Graphics |
+| 9 | **Zara Chen** | Site Reliability Engineer | Ling 3.0 Flash | Researching & Analysis |
+| 10 | **Kai Tanaka** | Product & UX Architect | Recraft V4.1 Vector | Image Gen & Graphics |
 
 ---
 
