@@ -8,7 +8,7 @@
     "dev": "node server/server.js",
     "daemon": "npx -y @bulletproof-sh/ctrl-daemon@latest --port 3001 --no-open",
     "py-start": "python python_backend/main.py",
-    "deploy:vercel": "npx vercel build_output --yes",
+    "deploy:office": "npx vercel --prod --yes",
     "test": "node tests/backend.test.js && python python_backend/test_backend.py"
   },
   "keywords": [
