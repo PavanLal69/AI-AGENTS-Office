@@ -1,0 +1,88 @@
+{
+  "totalCostUSD": 0.01278155,
+  "totalTokens": 11818,
+  "invoices": {
+    "build_1785518800021": {
+      "invoiceId": "X402_build_1785518800021",
+      "buildId": "build_1785518800021",
+      "prompt": "Build a Netflix Clone with React and Auth",
+      "timestamp": 1785518806091,
+      "status": "X402_SETTLED",
+      "promptTokens": 3705,
+      "completionTokens": 8113,
+      "totalTokens": 11818,
+      "totalCostUSD": 0.012782,
+      "httpHeaders": {
+        "X-402-Payment-Required": "SETTLED",
+        "X-402-Cost-USD": "0.012782",
+        "X-402-Token-Count": "11818",
+        "X-402-Billing-Id": "X402_build_1785518800021"
+      },
+      "breakdown": [
+        {
+          "agentId": "agent_alex",
+          "role": "Queen Architect",
+          "model": "NVIDIA Nemotron 550B",
+          "promptTokens": 475,
+          "completionTokens": 1228,
+          "totalTokens": 1703,
+          "costUSD": 0.003327
+        },
+        {
+          "agentId": "agent_elena",
+          "role": "Security Auditor",
+          "model": "NVIDIA Nemotron 550B",
+          "promptTokens": 624,
+          "completionTokens": 1275,
+          "totalTokens": 1899,
+          "costUSD": 0.003559
+        },
+        {
+          "agentId": "agent_sam",
+          "role": "QA Auditor",
+          "model": "Ling 3.0 Flash",
+          "promptTokens": 431,
+          "completionTokens": 1180,
+          "totalTokens": 1611,
+          "costUSD": 0.000773
+        },
+        {
+          "agentId": "agent_zara",
+          "role": "SRE Engineer",
+          "model": "Ling 3.0 Flash",
+          "promptTokens": 458,
+          "completionTokens": 1156,
+          "totalTokens": 1614,
+          "costUSD": 0.000762
+        },
+        {
+          "agentId": "agent_marcus",
+          "role": "Data Engineer",
+          "model": "Cohere Mini",
+          "promptTokens": 618,
+          "completionTokens": 1336,
+          "totalTokens": 1954,
+          "costUSD": 0.001521
+        },
+        {
+          "agentId": "agent_devon",
+          "role": "Backend Engineer",
+          "model": "Cohere Mini",
+          "promptTokens": 693,
+          "completionTokens": 877,
+          "totalTokens": 1570,
+          "costUSD": 0.001085
+        },
+        {
+          "agentId": "agent_maya",
+          "role": "Frontend Specialist",
+          "model": "Recraft V4.1 Vector",
+          "promptTokens": 406,
+          "completionTokens": 1061,
+          "totalTokens": 1467,
+          "costUSD": 0.001754
+        }
+      ]
+    }
+  }
+}

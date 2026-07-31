@@ -1,0 +1,36 @@
+{
+  "name": "pixel-office-ai-agents",
+  "version": "1.0.0",
+  "description": "AI AGENTS Office System with Pixel Cubicles, Ctrl/Cubicles Daemon, and Multi-API Key Management",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js",
+    "daemon": "npx -y @bulletproof-sh/ctrl-daemon@latest --port 3001 --no-open",
+    "py-start": "python python_backend/main.py",
+    "deploy:vercel": "npx vercel build_output --yes",
+    "test": "node tests/backend.test.js && python python_backend/test_backend.py"
+  },
+  "keywords": [
+    "pixel-office",
+    "ctrl-daemon",
+    "bulletproof-sh",
+    "ai-agents",
+    "cubicles",
+    "multi-api-keys",
+    "claude"
+  ],
+  "author": "Antigravity AI",
+  "license": "MIT",
+  "dependencies": {
+    "@bulletproof-sh/ctrl-daemon": "^0.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "vibekit": "^0.0.4",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "vercel": "^58.4.4"
+  }
+}

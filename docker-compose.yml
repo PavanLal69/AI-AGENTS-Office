@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  pixel-office-ai:
+    build: .
+    container_name: pixel_office_agents
+    restart: always
+    ports:
+      - "3000:3000"
+      - "3005:3005"
+      - "8000:8000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOST=0.0.0.0
+    volumes:
+      - ./build_output:/app/build_output
+      - ./memory_bank.json:/app/memory_bank.json

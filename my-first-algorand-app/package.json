@@ -1,0 +1,13 @@
+{
+  "name": "my-first-algorand-app",
+  "version": "1.0.0",
+  "description": "Algorand AlgoKit Smart Contract Project",
+  "main": "index.js",
+  "scripts": {
+    "build": "algokit project run build",
+    "deploy:testnet": "algokit project deploy testnet"
+  },
+  "dependencies": {
+    "@algorandfoundation/algokit-utils": "^5.0.0"
+  }
+}

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ctrl / Cubicles — Watch your AI coding agents work</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="app-container">
+    
+    <!-- VS Code Top Navigation Bar with Prompt Box -->
+    <header class="vscode-top-bar">
+      <div class="top-nav-tabs">
+        <span class="tab active">CTRL</span>
+        <span class="tab">TERMINAL</span>
+        <span class="tab">PROBLEMS</span>
+        <span class="tab">OUTPUT</span>
+        <span class="tab">PORTS</span>
+        <span class="tab">GITLENS</span>
+      </div>
+
+      <!-- Global Prompt Input Box -->
+      <div class="global-prompt-container">
+        <input type="text" id="global-build-prompt" class="prompt-input" placeholder="✨ Enter build requirement (e.g., Build an AI Chat App with dark theme)..." />
+        <button id="btn-start-build" class="btn btn-gradient btn-xs">🚀 Start Build</button>
+      </div>
+
+      <div class="top-bar-controls">
+        <select class="top-select">
+          <option>All projects (auto-discover)</option>
+          <option>ctrl-office</option>
+          <option>bulletproof-sh</option>
+        </select>
+        <span class="filter-chip">⏱ 15 min</span>
+        <button id="open-billing-btn" class="btn btn-gradient btn-xs" style="background: linear-gradient(135deg, #10b981, #059669); color:#fff;">💳 X402 Billing</button>
+        <button id="open-vault-btn" class="btn btn-gradient btn-xs">🔑 Key Vault</button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Grid -->
+    <div class="workspace-grid">
+      
+      <!-- Left Panel: Groups & Sub-Agents Tree -->
+      <aside class="left-groups-panel glass-panel">
+        <div class="panel-header">GROUPS</div>
+        <div class="groups-tree">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </aside>
+
+      <!-- Center Office Viewport & 2D Tilemap Canvas -->
+      <main class="office-viewport glass-panel">
+        <div class="canvas-wrapper">
+          <canvas id="office-canvas"></canvas>
+        </div>
+
+        <!-- Floating Bottom Dock Toolbar -->
+        <div class="bottom-dock">
+          <button class="dock-btn active"><span class="icon">💻</span> Local</button>
+          <button class="dock-btn"><span class="icon">ℹ️</span> About</button>
+          <button class="dock-btn"><span class="icon">⚙️</span> Settings</button>
+          <button class="dock-btn"><span class="icon">🛠️</span> Setup</button>
+          <button class="dock-btn" id="dock-fit"><span class="icon">🔍</span> Fit</button>
+          <button class="dock-btn"><span class="icon">🐙</span> GitHub</button>
+          <button class="dock-btn"><span class="icon">🔗</span> Share</button>
+          <button class="dock-btn"><span class="icon">▶️</span> Demo</button>
+        </div>
+      </main>
+
+      <!-- Right Panel: Agent Inspector & Turn Execution Tree -->
+      <aside class="right-agents-panel glass-panel">
+        
+        <!-- Filter Bar -->
+        <div class="agents-filter-bar">
+          <div class="filter-pills">
+            <span class="pill-chip">All 10</span>
+            <span class="pill-chip">Att 0</span>
+            <span class="pill-chip highlight-green">Act 10</span>
+            <span class="pill-chip">Idl 0</span>
+            <span class="pill-chip">Don 0</span>
+          </div>
+          <div class="toggle-switch">
+            <label>Active only</label>
+            <input type="checkbox" checked />
+          </div>
+        </div>
+
+        <!-- Selected Agent Card Header -->
+        <div class="agent-selected-card glass-panel">
+          <div class="card-header">
+            <div class="agent-avatar-box" id="card-avatar">👾</div>
+            <div class="agent-meta-header">
+              <h3 id="card-agent-name">Alex Vance (drifting-gliding-neumann)</h3>
+              <div class="meta-sub">
+                <span class="branch-tag" id="card-branch">develop</span>
+                <span class="model-tag" id="card-model">NVIDIA Nemotron 550B</span>
+                <span class="status-tag active">● Task</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Metadata Grid -->
+          <div class="agent-meta-grid">
+            <div class="row"><span class="lbl">ID</span><span class="val" id="card-id">4</span></div>
+            <div class="row"><span class="lbl">Session</span><span class="val" id="card-session">ef989843-2a56-40a6-9ace-6ad...</span></div>
+            <div class="row"><span class="lbl">Agent</span><span class="val" id="card-agent-slug">drifting-gliding-neumann</span></div>
+            <div class="row"><span class="lbl">Dir</span><span class="val" id="card-dir">github.com/bulletproof-sh</span></div>
+            <div class="row"><span class="lbl">Model</span><span class="val provider-badge openrouter" id="card-provider-badge">NVIDIA Nemotron 550B</span></div>
+            <div class="row"><span class="lbl">Team</span><span class="val text-green" id="card-team">● bulletproof-sh (Thinking & System Blueprint)</span></div>
+            <div class="row"><span class="lbl">Tokens</span><span class="val" id="card-tokens">1.2k in / 8.5k out</span></div>
+            <div class="row"><span class="lbl">Cache</span><span class="val text-cyan" id="card-cache">Score: 98/100 (99.4%)</span></div>
+            <div class="row"><span class="lbl">Cost</span><span class="val text-gold" id="card-cost">$0.00 (Free OpenRouter)</span></div>
+            <div class="row"><span class="lbl">Branch</span><span class="val text-purple" id="card-branch-val">develop</span></div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="card-actions">
+            <button class="btn btn-secondary btn-xs">📖 History (15)</button>
+            <button class="btn btn-secondary btn-xs">🔍 Inspect</button>
+            <button class="btn btn-gradient btn-xs">>_ Focus Terminal</button>
+          </div>
+        </div>
+
+        <!-- Turn Execution Tree View -->
+        <div class="execution-tree-view glass-panel">
+          <div class="tree-header">
+            <span>Turn Execution Tree</span>
+            <span class="turns-count text-cyan" id="tree-turns">22 turns</span>
+          </div>
+
+          <div class="tree-body" id="tree-nodes">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+
+    <!-- Multi-API Key Vault Modal Overlay -->
+    <div id="key-vault-modal" class="modal-backdrop">
+      <div class="modal-card glass-panel">
+        <div class="modal-header">
+          <h2>🔑 Multi-API Key Vault & Provider Router</h2>
+          <button id="close-vault-btn" class="btn-icon-close">✕</button>
+        </div>
+        <p class="modal-desc">Assign unique API keys to distinct office agents. Keys are encrypted via AES-256 GCM in local key vault storage.</p>
+
+        <div class="vault-grid-layout">
+          <!-- Form Panel -->
+          <div class="key-form-card">
+            <h3>➕ Add / Update API Key</h3>
+            <form id="key-form">
+              <div class="form-group">
+                <label>Key Descriptor Name</label>
+                <input type="text" id="key-name" class="glass-input" placeholder="e.g. Anthropic Claude Pro Key" required />
+              </div>
+              <div class="form-group">
+                <label>LLM Provider</label>
+                <select id="key-provider" class="glass-input">
+                  <option value="openrouter">OpenRouter Pool</option>
+                  <option value="anthropic">Anthropic (Claude 3.5 / 3.7)</option>
+                  <option value="openai">OpenAI (GPT-4o / o3-mini)</option>
+                  <option value="gemini">Google Gemini (2.5 Flash / Pro)</option>
+                  <option value="ollama">Ollama Local (localhost:11434)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>API Key / Secret Endpoint</label>
+                <input type="password" id="key-secret" class="glass-input" placeholder="sk-ant-... or sk-proj..." required />
+              </div>
+              <button type="submit" class="btn btn-gradient btn-block">🔒 Save Encrypted Key</button>
+            </form>
+          </div>
+
+          <!-- Inventory Panel -->
+          <div class="key-inventory-card">
+            <h3>📜 Configured Keys & Member Allocations</h3>
+            <table class="vault-table">
+              <thead>
+                <tr>
+                  <th>Key Name</th>
+                  <th>Provider</th>
+                  <th>Masked Key</th>
+                  <th>Bound Member</th>
+                  <th>Usage Cost</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="vault-keys-list">
+                <!-- Populated dynamically via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Build Completion & Agent Leaderboard Modal Overlay -->
+    <div id="build-complete-modal" class="modal-backdrop">
+      <div class="modal-card glass-panel" style="max-width: 700px;">
+        <div class="modal-header">
+          <h2>🎉 Build Completed Successfully!</h2>
+          <button id="close-build-modal-btn" class="btn-icon-close">✕</button>
+        </div>
+        <p class="modal-desc" id="build-modal-prompt">Prompt: "Build an AI Chat App with dark theme"</p>
+
+        <!-- Live Localhost Link Banner -->
+        <div class="localhost-link-card">
+          <span class="text-dim">LIVE LOCALHOST ENDPOINT</span>
+          <div class="link-box">
+            <span class="dot green"></span>
+            <a id="build-localhost-link" href="http://localhost:3005" target="_blank" class="live-url">http://localhost:3005</a>
+            <button id="copy-link-btn" class="btn btn-gradient btn-xs">📋 Copy Link</button>
+          </div>
+        </div>
+
+        <!-- 10 Agent Leaderboard & Scores -->
+        <h3 class="leaderboard-title">🏆 Agent Performance Scores</h3>
+        <div class="agent-scores-grid" id="agent-scores-list">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- X402 Billing & Token Micro-Payment Modal Overlay -->
+    <div id="x402-billing-modal" class="modal-backdrop">
+      <div class="modal-card glass-panel" style="max-width: 800px;">
+        <div class="modal-header">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <h2>💳 X402 Protocol Billing Ledger</h2>
+            <span class="status-chip active">● HTTP 402 SETTLED</span>
+          </div>
+          <button id="close-billing-btn" class="btn-icon-close">✕</button>
+        </div>
+        <p class="modal-desc">Standardized HTTP 402 Payment Required headers & itemized micro-token USD cost telemetry across all 10 agent models.</p>
+
+        <!-- Live Header Specs -->
+        <div class="vault-grid-layout" style="grid-template-columns: 1fr 1fr; margin-bottom: 20px;">
+          <div class="key-form-card" style="padding: 16px;">
+            <h4 style="color:var(--accent-green); margin-bottom:8px;">🔒 HTTP 402 Response Headers</h4>
+            <div style="font-family:var(--font-code); font-size:11px; color:var(--text-main); line-height:1.8;">
+              <div><strong>X-402-Payment-Required:</strong> <span style="color:var(--accent-green);">SETTLED</span></div>
+              <div><strong>X-402-Cost-USD:</strong> <span id="x402-header-cost" style="color:var(--accent-blue);">$0.012782</span></div>
+              <div><strong>X-402-Token-Count:</strong> <span id="x402-header-tokens">11,818 Tokens</span></div>
+              <div><strong>X-402-Billing-Id:</strong> <span id="x402-header-id" style="color:var(--accent-purple);">X402_build_1785518800021</span></div>
+            </div>
+          </div>
+
+          <div class="key-form-card" style="padding: 16px; text-align:center;">
+            <h4 style="color:var(--accent-blue); margin-bottom:8px;">💰 Total Build Cost</h4>
+            <div id="x402-total-cost" style="font-family:var(--font-heading); font-size:36px; font-weight:800; color:var(--accent-green);">$0.012782</div>
+            <div id="x402-total-tokens" style="font-size:12px; color:var(--text-dim); margin-top:4px;">11,818 total prompt & completion tokens</div>
+          </div>
+        </div>
+
+        <!-- 👛 Pera Wallet QR Code Scanner & Settlement Card -->
+        <div class="key-form-card" style="padding: 18px; margin-bottom: 20px; background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.25);">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:40px; height:40px; border-radius:12px; background:#10b981; display:flex; align-items:center; justify-content:center; font-size:22px;">📱</div>
+              <div style="text-align:left;">
+                <h4 style="color:#fff; font-size:15px; font-weight:700;">Pera Wallet QR Settlement</h4>
+                <span style="font-size:11px; color:var(--accent-green); font-weight:600;">Scan QR code with Pera Mobile Wallet to settle X402 micro-payment on Algorand TestNet</span>
+              </div>
+            </div>
+            <button id="btn-toggle-pera-qr" class="btn btn-gradient btn-xs" style="background:linear-gradient(135deg, #10b981, #059669); color:#fff;">📱 Show QR Scanner</button>
+          </div>
+
+          <!-- Collapsible QR Code Scanner Container -->
+          <div id="pera-qr-scanner-box" style="display:none; margin-top:16px; pt-16px; border-top:1px solid rgba(255,255,255,0.08); text-align:center;">
+            <div style="background:#ffffff; border-radius:16px; padding:14px; width:180px; height:180px; margin:12px auto; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 25px rgba(0,0,0,0.4);">
+              <canvas id="pera-modal-qr-canvas" width="150" height="150"></canvas>
+            </div>
+            <div style="font-family:var(--font-code); font-size:11px; color:var(--text-main); margin-bottom:10px;">
+              Uri: <span style="color:var(--accent-blue);" id="pera-invoice-uri">algorand://pera-x402-settle?id=X402_build_1785518800021&cost=0.012782</span>
+            </div>
+            <div style="display:flex; gap:10px; justify-content:center;">
+              <button id="btn-simulate-pera-pay" class="btn btn-gradient btn-xs" style="background:linear-gradient(135deg, #10b981, #059669);">📷 Simulate Pera Mobile Scan & Pay</button>
+              <button id="btn-copy-pera-uri" class="btn btn-xs" style="background:rgba(255,255,255,0.08); color:#fff; border:1px solid var(--pixel-overlay);">📋 Copy URI</button>
+            </div>
+            <div id="pera-settle-tx-log" style="font-family:var(--font-code); font-size:11px; color:var(--accent-green); margin-top:10px; display:none;">
+              ✓ Settlement Confirmed on Algorand TestNet! TxID: <span id="pera-tx-hash">TX_ALGO_98F2A14B</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Itemized Agent Micro-Billing Table -->
+        <h3 class="leaderboard-title">🧾 Itemized Agent Micro-Billing Breakdown</h3>
+        <table class="vault-table" style="width:100%;">
+          <thead>
+            <tr>
+              <th>Agent Persona</th>
+              <th>Role</th>
+              <th>LLM Model</th>
+              <th>Prompt Tokens</th>
+              <th>Completion Tokens</th>
+              <th>Cost (USD)</th>
+            </tr>
+          </thead>
+          <tbody id="x402-invoice-breakdown">
+            <!-- Populated dynamically via JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/sprite_generator.js"></script>
+  <script src="js/pathfinding.js"></script>
+  <script src="js/audio_engine.js"></script>
+  <script src="js/office_canvas.js"></script>
+  <script src="js/key_vault_ui.js"></script>
+  <script src="js/inspector_ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+{
+  "name": "ctrl-cubicles-pixel-office",
+  "displayName": "Ctrl/Cubicles - Pixel Office for AI Coding Agents",
+  "description": "Visual 2D pixel-art office dashboard and multi-API key agent manager for AI coding agents.",
+  "version": "1.0.0",
+  "publisher": "pixel-office-hq",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "activationEvents": [
+    "onCommand:ctrlCubicles.openOffice"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "ctrlCubicles.openOffice",
+        "title": "Ctrl/Cubicles: Open Pixel Office Dashboard",
+        "category": "Pixel Office"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "ctrl-cubicles-view-container",
+          "title": "Pixel Office",
+          "icon": "$(layout)"
+        }
+      ]
+    },
+    "views": {
+      "ctrl-cubicles-view-container": [
+        {
+          "type": "webview",
+          "id": "ctrlCubicles.officeView",
+          "name": "Pixel Office HQ"
+        }
+      ]
+    }
+  }
+}

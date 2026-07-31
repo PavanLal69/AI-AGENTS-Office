@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "my-first-algorand-app"
+version = "0.1.0"
+description = "Algorand TestNet Smart Contract App created via AlgoKit"
+authors = ["Pixel Office AI Agents <support@bulletproof.sh>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pyteal = "^0.24.1"
+algokit-utils = "^2.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

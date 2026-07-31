@@ -1,0 +1,167 @@
+{
+  "keys": [
+    {
+      "id": "key_anthropic_primary",
+      "name": "Anthropic Claude Primary",
+      "provider": "anthropic",
+      "encryptedKey": "gAAAAABqbQWH4m_tDNUijAK24x4E6_ug8xpdNmG2E5Y4uyl5rQtkFUBoM_1uLf-uM8-e69CGTOJW38dg-PWoi2SP41U0qMOEE2qY5vuEXGwTVHC0ACgBp0gLD5JrnXanhJk5BzGCmPk2",
+      "masked": "sk-ant...-001",
+      "telemetry": {
+        "requests": 0,
+        "promptTokens": 0,
+        "completionTokens": 0,
+        "estimatedCostUsd": 0.0,
+        "lastUsed": null,
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "id": "key_openai_primary",
+      "name": "OpenAI GPT-4o Key",
+      "provider": "openai",
+      "encryptedKey": "gAAAAABqbQWHYSQoqzxVy1-b0D8RkCULcLDFxfNHQhJKpqNrlxBpIroKOvXBfKNghvnY5xSdHAlhbjh35tZb8O28o4StC1ZUwweXyAEuM3lBy6dtLEN756LkLGnOq5Yi1lUpd_wzO5CE",
+      "masked": "sk-pro...-002",
+      "telemetry": {
+        "requests": 0,
+        "promptTokens": 0,
+        "completionTokens": 0,
+        "estimatedCostUsd": 0.0,
+        "lastUsed": null,
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "id": "key_gemini_primary",
+      "name": "Google Gemini Pro Key",
+      "provider": "gemini",
+      "encryptedKey": "gAAAAABqbQWHjvPiyRgALPTTqGn2hVIZavFHqL8LB6JoMg5HAUWegjnF6nbPTWqmiZTg4-8_FyyER9iVcLwCKyY_AUN3gMikmRpMcX8qdbawZ0F5VHE-i1RyJDazWAtI-cYl6eNmj2UC",
+      "masked": "AIzaSy...-003",
+      "telemetry": {
+        "requests": 0,
+        "promptTokens": 0,
+        "completionTokens": 0,
+        "estimatedCostUsd": 0.0,
+        "lastUsed": null,
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "id": "key_openrouter_dev",
+      "name": "OpenRouter Key Pool",
+      "provider": "openrouter",
+      "encryptedKey": "gAAAAABqbQWHr9Ul0qraWHVVz0vXW9gyVOKGIiskOh6lTedpU4w3YXXJsW4Vlm2yZvteU8EqAWDJyaZuAF9sUiUHxKh6nHCpICWZfSjDonKYzyYy8yfV1HE=",
+      "masked": "sk-or-...-004",
+      "telemetry": {
+        "requests": 0,
+        "promptTokens": 0,
+        "completionTokens": 0,
+        "estimatedCostUsd": 0.0,
+        "lastUsed": null,
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "id": "key_ollama_local",
+      "name": "Ollama Local Instance",
+      "provider": "ollama",
+      "encryptedKey": "gAAAAABqbQWHmkft6syJ0QQuhcc04JvtPORjn4loMMPi7Mv6C9GRkx96eVhwSSOQ0MDHTQ4J1v8EHBkdOpog0778Ily07ez-I-b7aamTCR5ovTaA18VwO5U=",
+      "masked": "http://localhost:11434",
+      "telemetry": {
+        "requests": 0,
+        "promptTokens": 0,
+        "completionTokens": 0,
+        "estimatedCostUsd": 0.0,
+        "lastUsed": null,
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "id": "key_openrouter_nvidia",
+      "name": "NVIDIA Nemotron 3 Ultra (Thinking, Planning & Design)",
+      "provider": "openrouter",
+      "encryptedKey": "gAAAAABqbQWHX7egEJFRhxEhqzSydKnxqXrsJqyR9E9Yi2FYxET69p3jInz2MwB_MbprZHrtTlvMaG4n0WORZdZM6Q1d92Ecv6Q7DaNcjS6GkdmYUUZMLEzcLmaRx3xcceLvIQbcKKDX",
+      "masked": "sk-or-...IDIA",
+      "telemetry": {
+        "requests": 0,
+        "promptTokens": 0,
+        "completionTokens": 0,
+        "estimatedCostUsd": 0.0,
+        "lastUsed": null,
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "id": "key_openrouter_cohere",
+      "name": "Cohere North Mini Code (Coding & Implementation)",
+      "provider": "openrouter",
+      "encryptedKey": "gAAAAABqbQWHap0N77R2q6ZC_16jrMscU3PY7IrTeAgQY6GNDT6-Jam1OOVHoEKGJtCB1GAnKj565htXSvkRydRut2fa9JkKnOeM23P9_UyrOXApLjBmYfVKQLBAzXSJVXbTvYcgtf8h",
+      "masked": "sk-or-...HERE",
+      "telemetry": {
+        "requests": 0,
+        "promptTokens": 0,
+        "completionTokens": 0,
+        "estimatedCostUsd": 0.0,
+        "lastUsed": null,
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "id": "key_openrouter_ling",
+      "name": "Ling 3.0 Flash (Researching & Analysis)",
+      "provider": "openrouter",
+      "encryptedKey": "gAAAAABqbQWHk8Tls3tUesvlnHlQzX6w02oxdaDtb3eTZRpXu1-FrCGnOSL-mnb_D4Mu52H0g3tpSFQ9qqwAbmd73hwuvlElXbneldFFfLKfxHXA60gpESNXckFHvZNXUmJvmBJaBAVq",
+      "masked": "sk-or-...LING",
+      "telemetry": {
+        "requests": 0,
+        "promptTokens": 0,
+        "completionTokens": 0,
+        "estimatedCostUsd": 0.0,
+        "lastUsed": null,
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "id": "key_openrouter_recraft",
+      "name": "Recraft V4.1 Vector (Image Generation & Graphics)",
+      "provider": "openrouter",
+      "encryptedKey": "gAAAAABqbQWHx5QG0587m6mlICwKsuiSv_5P8ChBv38TMAnJaCvfJJsW6C8NHZlatWyn2kUeKGY0DmvtHISmqTmFwz1cAOAXeSV8DREteWMdbQzIeq5k4NmcyKHVK60gWJXQa0GHhuPZ",
+      "masked": "sk-or-...RAFT",
+      "telemetry": {
+        "requests": 0,
+        "promptTokens": 0,
+        "completionTokens": 0,
+        "estimatedCostUsd": 0.0,
+        "lastUsed": null,
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "id": "test_py_01",
+      "name": "Python Test Key",
+      "provider": "openai",
+      "encryptedKey": "gAAAAABqbQWHOYs-QZmLlGSIw-3iHHX4KVRYumEBU2myPFjNYMwyORYHINtf8v0yNUJ2g-65coPEmk_IMsNX8ud-ezCv6TJS-jf6Al6g_yMy4NMORXWzCx4=",
+      "masked": "sk-pro...2345",
+      "telemetry": {
+        "requests": 0,
+        "promptTokens": 0,
+        "completionTokens": 0,
+        "estimatedCostUsd": 0.0,
+        "lastUsed": null,
+        "status": "ACTIVE"
+      }
+    }
+  ],
+  "bindings": {
+    "agent_alex": "key_anthropic_primary",
+    "agent_maya": "key_openrouter_recraft",
+    "agent_devon": "key_openrouter_cohere",
+    "agent_sam": "key_openrouter_ling",
+    "agent_riley": "key_openrouter_recraft",
+    "agent_elena": "key_openrouter_nvidia",
+    "agent_marcus": "key_openrouter_cohere",
+    "agent_zara": "key_openrouter_ling",
+    "agent_kai": "key_openrouter_recraft",
+    "agent_viktor": "key_openrouter_recraft"
+  },
+  "updatedAt": "2026-08-01T01:58:55Z"
+}

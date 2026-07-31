@@ -1,0 +1,196 @@
+{
+  "buildHistory": [
+    {
+      "buildId": "build_1785517208692",
+      "prompt": "build a personal portfolio",
+      "timestamp": 1785517216899,
+      "durationMs": 8203,
+      "scores": {
+        "agent_alex": {
+          "score": 98,
+          "role": "Queen Architect",
+          "model": "NVIDIA Nemotron 550B"
+        },
+        "agent_elena": {
+          "score": 97,
+          "role": "Security Auditor",
+          "model": "NVIDIA Nemotron 550B"
+        },
+        "agent_sam": {
+          "score": 99,
+          "role": "QA Auditor",
+          "model": "Ling 3.0 Flash"
+        },
+        "agent_zara": {
+          "score": 96,
+          "role": "SRE Engineer",
+          "model": "Ling 3.0 Flash"
+        },
+        "agent_marcus": {
+          "score": 94,
+          "role": "Data Engineer",
+          "model": "Cohere Mini"
+        },
+        "agent_devon": {
+          "score": 95,
+          "role": "Backend Engineer",
+          "model": "Cohere Mini"
+        },
+        "agent_maya": {
+          "score": 96,
+          "role": "Frontend Specialist",
+          "model": "Recraft V4.1 Vector"
+        }
+      }
+    },
+    {
+      "buildId": "build_1785517209166",
+      "prompt": "build a personal portfolio",
+      "timestamp": 1785517217770,
+      "durationMs": 8602,
+      "scores": {
+        "agent_alex": {
+          "score": 98,
+          "role": "Queen Architect",
+          "model": "NVIDIA Nemotron 550B"
+        },
+        "agent_elena": {
+          "score": 97,
+          "role": "Security Auditor",
+          "model": "NVIDIA Nemotron 550B"
+        },
+        "agent_sam": {
+          "score": 99,
+          "role": "QA Auditor",
+          "model": "Ling 3.0 Flash"
+        },
+        "agent_zara": {
+          "score": 96,
+          "role": "SRE Engineer",
+          "model": "Ling 3.0 Flash"
+        },
+        "agent_marcus": {
+          "score": 94,
+          "role": "Data Engineer",
+          "model": "Cohere Mini"
+        },
+        "agent_devon": {
+          "score": 95,
+          "role": "Backend Engineer",
+          "model": "Cohere Mini"
+        },
+        "agent_maya": {
+          "score": 96,
+          "role": "Frontend Specialist",
+          "model": "Recraft V4.1 Vector"
+        }
+      }
+    },
+    {
+      "buildId": "build_1785518800021",
+      "prompt": "Build a Netflix Clone with React and Auth",
+      "timestamp": 1785518806097,
+      "durationMs": 6075,
+      "scores": {
+        "agent_alex": {
+          "score": 98,
+          "role": "Queen Architect",
+          "model": "NVIDIA Nemotron 550B"
+        },
+        "agent_elena": {
+          "score": 97,
+          "role": "Security Auditor",
+          "model": "NVIDIA Nemotron 550B"
+        },
+        "agent_sam": {
+          "score": 99,
+          "role": "QA Auditor",
+          "model": "Ling 3.0 Flash"
+        },
+        "agent_zara": {
+          "score": 96,
+          "role": "SRE Engineer",
+          "model": "Ling 3.0 Flash"
+        },
+        "agent_marcus": {
+          "score": 94,
+          "role": "Data Engineer",
+          "model": "Cohere Mini"
+        },
+        "agent_devon": {
+          "score": 95,
+          "role": "Backend Engineer",
+          "model": "Cohere Mini"
+        },
+        "agent_maya": {
+          "score": 96,
+          "role": "Frontend Specialist",
+          "model": "Recraft V4.1 Vector"
+        }
+      }
+    }
+  ],
+  "componentBank": {},
+  "consensusLogs": [
+    {
+      "buildId": "build_1785517208692",
+      "timestamp": 1785517216825,
+      "approved": true,
+      "score": 98,
+      "votes": {
+        "queen": {
+          "vote": "APPROVE",
+          "score": 98
+        },
+        "qa": {
+          "vote": "APPROVE",
+          "score": 99
+        },
+        "security": {
+          "vote": "APPROVE",
+          "score": 97
+        }
+      }
+    },
+    {
+      "buildId": "build_1785517209166",
+      "timestamp": 1785517217312,
+      "approved": true,
+      "score": 98,
+      "votes": {
+        "queen": {
+          "vote": "APPROVE",
+          "score": 98
+        },
+        "qa": {
+          "vote": "APPROVE",
+          "score": 99
+        },
+        "security": {
+          "vote": "APPROVE",
+          "score": 97
+        }
+      }
+    },
+    {
+      "buildId": "build_1785518800021",
+      "timestamp": 1785518806089,
+      "approved": true,
+      "score": 98,
+      "votes": {
+        "queen": {
+          "vote": "APPROVE",
+          "score": 98
+        },
+        "qa": {
+          "vote": "APPROVE",
+          "score": 99
+        },
+        "security": {
+          "vote": "APPROVE",
+          "score": 97
+        }
+      }
+    }
+  ]
+}
