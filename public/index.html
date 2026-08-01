@@ -10,6 +10,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Official @perawallet/connect SDK (https://github.com/perawallet/connect) -->
+  <script src="https://unpkg.com/@perawallet/connect@1.3.4/dist/index.umd.js"></script>
 </head>
 <body>
   <div id="app-container">
@@ -260,33 +263,43 @@
           </div>
         </div>
 
-        <!-- 👛 Pera Wallet QR Code Scanner & Settlement Card -->
-        <div class="key-form-card" style="padding: 18px; margin-bottom: 20px; background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.25);">
+        <!-- 👛 Pera Wallet Connect (Official SDK: https://github.com/perawallet/connect) -->
+        <div class="key-form-card" id="pera-wallet-card" style="padding: 18px; margin-bottom: 20px; background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.25);">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <div style="display:flex; align-items:center; gap:12px;">
-              <div style="width:40px; height:40px; border-radius:12px; background:#10b981; display:flex; align-items:center; justify-content:center; font-size:22px;">📱</div>
+              <div style="width:40px; height:40px; border-radius:12px; background:linear-gradient(135deg, #FFEE55, #10b981); display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:900; color:#000;">P</div>
               <div style="text-align:left;">
-                <h4 style="color:#fff; font-size:15px; font-weight:700;">Pera Wallet QR Settlement</h4>
-                <span style="font-size:11px; color:var(--accent-green); font-weight:600;">Scan QR code with Pera Mobile Wallet to settle X402 micro-payment on Algorand TestNet</span>
+                <h4 style="color:#fff; font-size:15px; font-weight:700;">🔗 Pera Wallet Connect</h4>
+                <span id="pera-connect-status" style="font-size:11px; color:var(--accent-green); font-weight:600;">Official @perawallet/connect SDK — Algorand TestNet (chainId: 416002)</span>
               </div>
             </div>
-            <button id="btn-toggle-pera-qr" class="btn btn-gradient btn-xs" style="background:linear-gradient(135deg, #10b981, #059669); color:#fff;">📱 Show QR Scanner</button>
+            <button id="btn-pera-connect" class="btn btn-gradient btn-xs" style="background:linear-gradient(135deg, #FFEE55, #10b981); color:#000; font-weight:800;">📱 Connect Pera Wallet</button>
           </div>
 
-          <!-- Collapsible QR Code Scanner Container -->
-          <div id="pera-qr-scanner-box" style="display:none; margin-top:16px; pt-16px; border-top:1px solid rgba(255,255,255,0.08); text-align:center;">
-            <div style="background:#ffffff; border-radius:16px; padding:14px; width:180px; height:180px; margin:12px auto; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 25px rgba(0,0,0,0.4);">
-              <canvas id="pera-modal-qr-canvas" width="150" height="150"></canvas>
+          <!-- Connected Wallet Info (hidden by default) -->
+          <div id="pera-connected-info" style="display:none; margin-top:16px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.08);">
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+              <div style="width:10px; height:10px; border-radius:50%; background:#10b981; box-shadow: 0 0 8px #10b981; animation: dotPulse 2s ease-in-out infinite;"></div>
+              <span style="font-size:13px; font-weight:700; color:var(--accent-green);">✅ Wallet Connected</span>
             </div>
+            <div style="background:rgba(0,0,0,0.3); border-radius:10px; padding:12px; margin-bottom:12px;">
+              <div style="font-size:11px; color:var(--text-dim); margin-bottom:4px;">CONNECTED ADDRESS</div>
+              <div id="pera-wallet-address" style="font-family:var(--font-code); font-size:12px; color:var(--accent-blue); word-break:break-all;">—</div>
+            </div>
+            <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+              <button id="btn-pera-settle" class="btn btn-gradient btn-xs" style="background:linear-gradient(135deg, #10b981, #059669); color:#fff;">💳 Settle X402 Payment via Pera</button>
+              <button id="btn-pera-disconnect" class="btn btn-xs" style="background:rgba(239,68,68,0.15); color:var(--accent-red); border:1px solid rgba(239,68,68,0.3);">🔌 Disconnect Wallet</button>
+            </div>
+            <div id="pera-settle-tx-log" style="font-family:var(--font-code); font-size:11px; color:var(--accent-green); margin-top:12px; display:none;">
+              ✓ Settlement Confirmed on Algorand TestNet! TxID: <span id="pera-tx-hash">—</span>
+            </div>
+          </div>
+
+          <!-- QR Code Connect container (Pera SDK renders its own modal, this is fallback info) -->
+          <div id="pera-qr-scanner-box" style="display:none; margin-top:16px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.08); text-align:center;">
+            <div style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">The Pera Wallet SDK will open its own QR modal.<br>Scan with <strong>Pera Mobile Wallet</strong> app to connect.</div>
             <div style="font-family:var(--font-code); font-size:11px; color:var(--text-main); margin-bottom:10px;">
-              Uri: <span style="color:var(--accent-blue);" id="pera-invoice-uri">algorand://pera-x402-settle?id=X402_build_1785518800021&cost=0.012782</span>
-            </div>
-            <div style="display:flex; gap:10px; justify-content:center;">
-              <button id="btn-simulate-pera-pay" class="btn btn-gradient btn-xs" style="background:linear-gradient(135deg, #10b981, #059669);">📷 Simulate Pera Mobile Scan & Pay</button>
-              <button id="btn-copy-pera-uri" class="btn btn-xs" style="background:rgba(255,255,255,0.08); color:#fff; border:1px solid var(--pixel-overlay);">📋 Copy URI</button>
-            </div>
-            <div id="pera-settle-tx-log" style="font-family:var(--font-code); font-size:11px; color:var(--accent-green); margin-top:10px; display:none;">
-              ✓ Settlement Confirmed on Algorand TestNet! TxID: <span id="pera-tx-hash">TX_ALGO_98F2A14B</span>
+              Network: <span style="color:var(--accent-blue);" id="pera-invoice-uri">Algorand TestNet (chainId: 416002)</span>
             </div>
           </div>
         </div>
@@ -320,5 +333,6 @@
   <script src="js/key_vault_ui.js"></script>
   <script src="js/inspector_ui.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/pera_wallet_connect.js"></script>
 </body>
 </html>
