@@ -265,11 +265,27 @@ class PeraWalletIntegration {
           ✓ Payment Request Sent to Pera Wallet!<br>
           TxID: <span id="pera-tx-hash" style="color:var(--accent-yellow); font-weight:700;">${txHash}</span><br>
           Target: <span style="color:var(--accent-blue);">${senderAddress}</span><br>
-          <div style="margin-top:8px; display:flex; gap:8px; justify-content:center;">
-            <a href="${peraDeepLink}" target="_blank" class="btn btn-xs" style="background:#FFEE55; color:#000; font-weight:700; text-decoration:none; padding:4px 10px; border-radius:6px;">📱 Re-open Pera App Prompt</a>
-            <a href="${peraWebPayUrl}" target="_blank" class="btn btn-xs" style="background:rgba(255,255,255,0.1); color:#fff; text-decoration:none; padding:4px 10px; border-radius:6px; border:1px solid var(--pixel-overlay);">🌐 Open Pera Web Pay</a>
+          <div style="margin-top:10px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+            <button id="pera-btn-reopen-app" class="btn btn-xs" style="background:linear-gradient(135deg, #FFEE55, #10b981); color:#000; font-weight:800; padding:6px 12px; border-radius:6px; border:none; cursor:pointer;">📱 Re-open Pera App Prompt</button>
+            <button id="pera-btn-open-webpay" class="btn btn-xs" style="background:rgba(255,255,255,0.12); color:#fff; font-weight:600; padding:6px 12px; border-radius:6px; border:1px solid var(--pixel-overlay); cursor:pointer;">🌐 Open Pera Web Pay</button>
           </div>
         `;
+
+        // Attach direct click events
+        setTimeout(() => {
+          const btnApp = document.getElementById('pera-btn-reopen-app');
+          const btnWeb = document.getElementById('pera-btn-open-webpay');
+          if (btnApp) {
+            btnApp.onclick = () => {
+              window.location.href = peraDeepLink;
+            };
+          }
+          if (btnWeb) {
+            btnWeb.onclick = () => {
+              window.open(peraWebPayUrl, '_blank');
+            };
+          }
+        }, 50);
       }
 
       if (btnSettle) {

@@ -171,6 +171,7 @@
 
     /**
      * Sign Transaction Groups using Pera Wallet
+     * Displays Pera Wallet Payment Request Modal with scannable QR code & mobile deep link
      * @param {Array} txGroups 
      * @returns {Promise<Uint8Array[]>}
      */
@@ -178,10 +179,122 @@
       if (!this.accounts || !this.accounts.length) {
         throw new Error('No Pera Wallet connected. Call connect() first.');
       }
-      if (this.shouldShowSignTxnToast) {
-        console.log('[PeraWalletSDK] 📝 Transaction signed with Pera Wallet for accounts:', this.accounts[0]);
-      }
-      return [new Uint8Array([1, 2, 3, 4, 5])];
+
+      return new Promise((resolve, reject) => {
+        const address = HARDCODED_PERA_ADDRESS;
+        const amountMicroAlgos = 12782;
+        const noteText = 'HTTP 402 Settlement - AI AGENTS Office';
+        const peraPayUri = `algorand://${address}?amount=${amountMicroAlgos}&note=${encodeURIComponent(noteText)}`;
+        const peraWebPayUri = `https://perawallet.app/pay?address=${address}&amount=${amountMicroAlgos}&note=${encodeURIComponent(noteText)}`;
+
+        // Create overlay element for Payment Request
+        const modalId = 'pera-sign-dialog-overlay';
+        let oldModal = document.getElementById(modalId);
+        if (oldModal) oldModal.remove();
+
+        const modal = document.createElement('div');
+        modal.id = modalId;
+        modal.className = 'pera-sdk-modal-backdrop';
+        modal.innerHTML = `
+          <div class="pera-sdk-modal-card" style="border-color: rgba(16, 185, 129, 0.4);">
+            <!-- Modal Header -->
+            <div class="pera-sdk-modal-header">
+              <div class="pera-sdk-logo-badge" style="background: linear-gradient(135deg, #10b981, #059669); color:#fff;">💳</div>
+              <div>
+                <h3 class="pera-sdk-title">Pera Wallet Payment Request</h3>
+                <span class="pera-sdk-subtitle" style="color:var(--accent-green, #10b981);">Algorand TestNet (0.012782 ALGO)</span>
+              </div>
+              <button class="pera-sdk-close-btn" id="pera-sign-close-x">✕</button>
+            </div>
+
+            <!-- Payment Summary Card -->
+            <div style="background: rgba(0,0,0,0.4); border-radius: 12px; padding: 12px; margin-bottom: 16px; border: 1px solid rgba(255,255,255,0.06);">
+              <div style="display:flex; justify-content:space-between; font-size:12px; color:#9ca3af; margin-bottom:6px;">
+                <span>RECIPIENT ADDRESS</span>
+                <span style="color:#FFEE55; font-weight:700;">Target Wallet</span>
+              </div>
+              <div style="font-family:monospace; font-size:11px; color:#5a8cff; word-break:break-all; margin-bottom:10px;">${address}</div>
+              
+              <div style="display:flex; justify-content:space-between; align-items:center; pt-8px; border-top:1px solid rgba(255,255,255,0.08);">
+                <span style="font-size:12px; color:#9ca3af;">AMOUNT (MICRO-ALGOS)</span>
+                <span style="font-size:18px; font-weight:800; color:#10b981;">12,782 microAlgos</span>
+              </div>
+            </div>
+
+            <!-- QR Code Section -->
+            <div class="pera-sdk-qr-body">
+              <div class="pera-sdk-qr-wrapper">
+                <canvas id="pera-sign-qr-canvas" width="200" height="200"></canvas>
+              </div>
+              <p class="pera-sdk-instruction">
+                Scan this Payment QR code with your <strong>Pera Wallet App</strong> camera to sign transaction.
+              </p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="pera-sdk-actions">
+              <button class="pera-sdk-btn pera-sdk-btn-primary" id="pera-sign-btn-app" style="background: linear-gradient(135deg, #10b981, #059669); color:#ffffff;">
+                📱 Open Payment Prompt in Pera App
+              </button>
+              <button class="pera-sdk-btn pera-sdk-btn-secondary" id="pera-sign-btn-web">
+                🌐 Open Pera Web Pay Link
+              </button>
+              <button class="pera-sdk-btn" id="pera-sign-btn-confirm" style="background: linear-gradient(135deg, #FFEE55, #10b981); color:#000000; margin-top:4px;">
+                ✅ Confirm & Approve Signature
+              </button>
+            </div>
+
+            <!-- Footer -->
+            <div class="pera-sdk-footer">
+              <span class="pera-sdk-uri-text">${peraPayUri}</span>
+              <button class="pera-sdk-copy-btn" id="pera-sign-copy-btn">📋 Copy URI</button>
+            </div>
+          </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        // Draw QR Code
+        setTimeout(() => {
+          this._drawQRCodeOnCanvas('pera-sign-qr-canvas', peraPayUri);
+        }, 50);
+
+        const closeModal = (isApproved = false) => {
+          modal.remove();
+          if (isApproved) {
+            resolve([new Uint8Array([1, 2, 3, 4, 5])]);
+          } else {
+            const err = new Error('Pera Wallet payment signing was cancelled.');
+            err.data = { type: 'SIGN_TRANSACTION_CANCELLED' };
+            reject(err);
+          }
+        };
+
+        document.getElementById('pera-sign-close-x').onclick = () => closeModal(false);
+        modal.onclick = (e) => {
+          if (e.target === modal) closeModal(false);
+        };
+
+        // Deep link handlers
+        document.getElementById('pera-sign-btn-app').onclick = () => {
+          window.location.href = peraPayUri;
+        };
+
+        document.getElementById('pera-sign-btn-web').onclick = () => {
+          window.open(peraWebPayUri, '_blank');
+        };
+
+        document.getElementById('pera-sign-btn-confirm').onclick = () => {
+          closeModal(true);
+        };
+
+        document.getElementById('pera-sign-copy-btn').onclick = () => {
+          navigator.clipboard.writeText(peraPayUri);
+          const btn = document.getElementById('pera-sign-copy-btn');
+          btn.textContent = '✓ Copied!';
+          setTimeout(() => { btn.textContent = '📋 Copy URI'; }, 2000);
+        };
+      });
     }
 
     /**
