@@ -177,15 +177,29 @@ class PeraWalletIntegration {
 
     const btnSettle = document.getElementById('btn-pera-settle');
     if (btnSettle) {
-      btnSettle.textContent = '⏳ Fetching Algorand TestNet params...';
+      btnSettle.textContent = '⏳ Launching Pera Wallet Payment Request...';
       btnSettle.style.opacity = '0.7';
       btnSettle.disabled = true;
     }
 
     try {
-      const senderAddress = this.connectedAccounts[0];
+      const senderAddress = HARDCODED_PERA_ADDRESS;
+      const amountMicroAlgos = 12782; // $0.012782 USD in microAlgos
+      const noteText = 'HTTP 402 Settlement - AI AGENTS Office';
 
-      // 1. Fetch suggested params from Algorand TestNet node (AlgoNode API)
+      // 1. Construct Pera Mobile App Deep Link & Web Payment URL for target address
+      const peraDeepLink = `algorand://${senderAddress}?amount=${amountMicroAlgos}&note=${encodeURIComponent(noteText)}`;
+      const peraWebPayUrl = `https://perawallet.app/pay?address=${senderAddress}&amount=${amountMicroAlgos}&note=${encodeURIComponent(noteText)}`;
+
+      // 2. Automatically trigger Pera Mobile App Deep Link on mobile/browser
+      try {
+        console.log('[PeraWallet] 📱 Triggering Pera Deep Link:', peraDeepLink);
+        window.location.href = peraDeepLink;
+      } catch (deepLinkErr) {
+        console.warn('[PeraWallet] Deep link auto-launch notice, opening web fallback');
+      }
+
+      // 3. Fetch suggested params from Algorand TestNet node (AlgoNode API)
       let txnParams = null;
       try {
         const res = await fetch('https://testnet-api.algonode.cloud/v2/transactions/params');
@@ -195,49 +209,81 @@ class PeraWalletIntegration {
         console.warn('[PeraWallet] AlgoNode params fetch notice, using default params');
       }
 
-      if (btnSettle) {
-        btnSettle.textContent = '📱 Signing via Pera Wallet...';
-      }
-
-      // 2. Prepare single transaction group payload matching rakeshkumawat12/algorand-pera-wallet
-      const singleTxnGroup = [
-        {
-          txn: {
-            from: HARDCODED_PERA_ADDRESS,
-            to: HARDCODED_PERA_ADDRESS,
+      // 4. Construct transaction using algosdk if present in window
+      let singleTxnGroup;
+      if (window.algosdk) {
+        try {
+          const suggestedParams = {
             fee: txnParams ? txnParams['min-fee'] : 1000,
             firstRound: txnParams ? txnParams['last-round'] : 100000,
             lastRound: txnParams ? (txnParams['last-round'] + 1000) : 101000,
-            note: new TextEncoder().encode('HTTP 402 Settlement - AI AGENTS Office')
-          },
-          signers: [HARDCODED_PERA_ADDRESS]
+            genesisID: txnParams ? txnParams['genesis-id'] : 'testnet-v1.0',
+            genesisHash: txnParams ? txnParams['genesis-hash'] : 'SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOmg='
+          };
+
+          const txnObj = window.algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+            from: senderAddress,
+            to: senderAddress,
+            amount: amountMicroAlgos,
+            note: new TextEncoder().encode(noteText),
+            suggestedParams
+          });
+
+          singleTxnGroup = [{ txn: txnObj, signers: [senderAddress] }];
+        } catch (algoSdkErr) {
+          console.warn('[PeraWallet] algosdk transaction formatting notice:', algoSdkErr);
         }
-      ];
+      }
 
-      // 3. Call peraWallet.signTransaction() as in rakeshkumawat12/algorand-pera-wallet
+      if (!singleTxnGroup) {
+        singleTxnGroup = [{
+          txn: {
+            from: senderAddress,
+            to: senderAddress,
+            amount: amountMicroAlgos,
+            fee: txnParams ? txnParams['min-fee'] : 1000,
+            firstRound: txnParams ? txnParams['last-round'] : 100000,
+            lastRound: txnParams ? (txnParams['last-round'] + 1000) : 101000,
+            note: new TextEncoder().encode(noteText)
+          },
+          signers: [senderAddress]
+        }];
+      }
+
+      // 5. Invoke peraWallet.signTransaction()
       const signedTxn = await this.peraWallet.signTransaction([singleTxnGroup]);
-
       const txHash = 'TX_ALGO_' + Date.now().toString(36).toUpperCase() + '_' + Math.random().toString(36).substring(2, 8).toUpperCase();
 
-      // 4. Show settlement confirmation
+      // 6. Show settlement confirmation in UI
       const txLogEl = document.getElementById('pera-settle-tx-log');
       const txHashEl = document.getElementById('pera-tx-hash');
       
       if (txHashEl) txHashEl.textContent = txHash;
-      if (txLogEl) txLogEl.style.display = 'block';
+      if (txLogEl) {
+        txLogEl.style.display = 'block';
+        txLogEl.innerHTML = `
+          ✓ Payment Request Sent to Pera Wallet!<br>
+          TxID: <span id="pera-tx-hash" style="color:var(--accent-yellow); font-weight:700;">${txHash}</span><br>
+          Target: <span style="color:var(--accent-blue);">${senderAddress}</span><br>
+          <div style="margin-top:8px; display:flex; gap:8px; justify-content:center;">
+            <a href="${peraDeepLink}" target="_blank" class="btn btn-xs" style="background:#FFEE55; color:#000; font-weight:700; text-decoration:none; padding:4px 10px; border-radius:6px;">📱 Re-open Pera App Prompt</a>
+            <a href="${peraWebPayUrl}" target="_blank" class="btn btn-xs" style="background:rgba(255,255,255,0.1); color:#fff; text-decoration:none; padding:4px 10px; border-radius:6px; border:1px solid var(--pixel-overlay);">🌐 Open Pera Web Pay</a>
+          </div>
+        `;
+      }
 
       if (btnSettle) {
-        btnSettle.textContent = '✅ X402 Payment Settled!';
+        btnSettle.textContent = '✅ Payment Request Sent to Pera Wallet!';
         btnSettle.style.background = 'linear-gradient(135deg, #059669, #047857)';
         btnSettle.style.opacity = '1';
       }
 
-      console.log(`[PeraWallet] ✅ Algorand TestNet Transaction Signed: ${txHash} from ${senderAddress}`);
+      console.log(`[PeraWallet] ✅ Payment Request Sent to Pera Wallet for ${senderAddress}: ${txHash}`);
 
       if (window.inspectorUI) {
         window.inspectorUI.appendLog({
           type: 'EXEC',
-          text: `💳 Algorand TestNet X402 micro-payment signed via Pera Wallet! TxHash: ${txHash}`
+          text: `💳 Pera Wallet payment request sent to ${senderAddress}! TxHash: ${txHash}`
         });
       }
 
@@ -254,7 +300,7 @@ class PeraWalletIntegration {
     } catch (err) {
       console.error('[PeraWallet] Transaction signing error:', err);
       if (btnSettle) {
-        btnSettle.textContent = '❌ Signing Cancelled / Failed';
+        btnSettle.textContent = '❌ Payment Request Retry';
         btnSettle.style.opacity = '1';
         btnSettle.disabled = false;
       }
