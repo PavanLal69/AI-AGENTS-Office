@@ -18,7 +18,7 @@ RUN npm install --production
 
 # Copy Python requirements & install FastAPI uvicorn
 COPY python_backend/requirements.txt ./python_backend/
-RUN pip install --no-cache-dir -r python_backend/requirements.txt || pip install --no-cache-dir fastapi uvicorn requests pyteal algokit-utils
+RUN pip install --no-cache-dir --break-system-packages -r python_backend/requirements.txt || pip install --no-cache-dir --break-system-packages fastapi uvicorn requests pyteal algokit-utils
 
 # Copy application source code
 COPY . .
