@@ -4,7 +4,7 @@
       "id": "key_openrouter_nvidia",
       "name": "NVIDIA Nemotron 3 Ultra (Thinking, Planning & Design)",
       "provider": "openrouter",
-      "encryptedKey": "b6bcf89abf40d1a9aa63b11c8bd59764:c340e488b4eb991ac85e17b6f81b21f54fbd740fe7d49eed2e2e1fba120c1ea672efb89cbc8590015c5fc1fc0b65b163",
+      "encryptedKey": "f134bf07541715a97796e92197f47ab3:f9b04a3187abd177e83e91eb7aeb5faa23958fddd4459d6f388afd72ac1a4fcbfdc3a8c55d36bec70eb44f7884bef650",
       "masked": "sk-or-v1-Y...NVIDIA",
       "telemetry": {
         "requests": 1,
@@ -19,7 +19,7 @@
       "id": "key_openrouter_cohere",
       "name": "Cohere North Mini Code (Coding & Implementation)",
       "provider": "openrouter",
-      "encryptedKey": "53927865a7bcd4e3b719bcb7a44a4a8e:6a709c8bb1c97ee39b6fb1f17847aaa5b44e1d0985df208c27a030a50a89c4732f944db9278a51af791c55a28f53d100",
+      "encryptedKey": "04e22e2af7a5f44660d1fa932f462907:a8f5d6d99b78c631f3b972eddb29ad66875b0958429d4af44018b73227822827f51b9a3869c18c75635b09d45976d0f0",
       "masked": "sk-or-v1-Y...COHERE",
       "telemetry": {
         "requests": 0,
@@ -34,7 +34,7 @@
       "id": "key_openrouter_ling",
       "name": "Ling 3.0 Flash (Researching & Analysis)",
       "provider": "openrouter",
-      "encryptedKey": "5a21720711ec4459d77a4c66d4b930cf:dc27c6c65ecf78add6b144db2c545bbd7b20bfe18df4ed8fbda362c1502af33a6916259f4f76b0cec3a2ba1b70233049",
+      "encryptedKey": "52b78eb171d74f9519b3951af25c434b:92319b9108bc21df9aed284e85a39f5edb605061364ce2040b326f75fea1b25c32b38c70fcbac55229f3f0ce6110f4ac",
       "masked": "sk-or-v1-Y...Y_LING",
       "telemetry": {
         "requests": 0,
@@ -49,7 +49,7 @@
       "id": "key_openrouter_recraft",
       "name": "Recraft V4.1 Vector (Image Generation & Graphics)",
       "provider": "openrouter",
-      "encryptedKey": "5a57bdf4f6ed6916d58a026a27da0317:b4d116a6e44a7bccfc66647bfcb2cbb4ed004e4ba25ca66d5ffa54c8ac1b66317db137a15378106c816460fa2c950065",
+      "encryptedKey": "9d837d1b52ef2014d600487775c65123:0882917725fa1680f0ff82abae6bb7927255e5d23271ce508e30012429ebf3dca6d9501459fec252d6ba7971b7586218",
       "masked": "sk-or-v1-Y...ECRAFT",
       "telemetry": {
         "requests": 0,
@@ -64,7 +64,7 @@
       "id": "test_key_001",
       "name": "Test Key Name",
       "provider": "anthropic",
-      "encryptedKey": "6bec3a1793e76a2b72b14f57d5731a4e:f5fa6a7d2c15d9194b1271ba87816fe9c692df67495e73df8ce99b77c8ffcad9",
+      "encryptedKey": "e5b0125233f546efeef9c1143471b7b7:5fd184f1744015430a321bfa179067e247021de7bf76f1959b1c5a7c74a10174",
       "masked": "sk-ant-tes...567890",
       "telemetry": {
         "requests": 0,
@@ -79,7 +79,7 @@
       "id": "test_bind_002",
       "name": "OpenAI Bind Key",
       "provider": "openai",
-      "encryptedKey": "eca3686fe3cab5dd87b40393cb4fd66e:f6ecbd2c829ecad34cf5c7acda188b4118362bfdd619744c3e4b516c118afeae",
+      "encryptedKey": "24eda20a1200d15f006498cebd5ebdc6:04ea009e033059b0ba7c775285a4d8d5e6dbb75adee5bd226062bed69872e206",
       "masked": "sk-proj-te...999999",
       "telemetry": {
         "requests": 0,
@@ -103,5 +103,5 @@
     "agent_riley": "key_openrouter_recraft",
     "agent_viktor": "key_openrouter_recraft"
   },
-  "updatedAt": "2026-08-01T06:41:43.709Z"
+  "updatedAt": "2026-08-01T06:50:27.734Z"
 }

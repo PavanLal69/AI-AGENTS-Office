@@ -16,7 +16,7 @@ function generateFullWebApplication(prompt, outputDir) {
     htmlContent = generateTicTacToeHTML(rawPrompt);
   } else if (lower.includes('chat') || lower.includes('bot') || lower.includes('assistant') || lower.includes('gpt')) {
     htmlContent = generateAIChatbotHTML(rawPrompt);
-  } else if (lower.includes('algo') || lower.includes('algorand') || lower.includes('algokit') || lower.includes('pera') || lower.includes('teal') || lower.includes('pyteal') || lower.includes('wallet') || lower.includes('crypto') || lower.includes('swap') || lower.includes('nft') || lower.includes('dex') || lower.includes('dao')) {
+  } else if (/\b(algorand|algokit|pyteal|algovault)\b/i.test(lower)) {
     htmlContent = generateAlgorandDAppHTML(rawPrompt);
   } else if (lower.includes('portfolio') || lower.includes('resume') || lower.includes('personal bio')) {
     htmlContent = generateFullPortfolioHTML(rawPrompt);
