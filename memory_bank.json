@@ -386,6 +386,92 @@
           "model": "Recraft V4.1 Vector"
         }
       }
+    },
+    {
+      "buildId": "build_1785565900634",
+      "prompt": "build a tic tac toe game",
+      "timestamp": 1785565909727,
+      "durationMs": 9082,
+      "scores": {
+        "agent_alex": {
+          "score": 98,
+          "role": "Queen Architect",
+          "model": "NVIDIA Nemotron 550B"
+        },
+        "agent_elena": {
+          "score": 97,
+          "role": "Security Auditor",
+          "model": "NVIDIA Nemotron 550B"
+        },
+        "agent_sam": {
+          "score": 99,
+          "role": "QA Auditor",
+          "model": "Ling 3.0 Flash"
+        },
+        "agent_zara": {
+          "score": 96,
+          "role": "SRE Engineer",
+          "model": "Ling 3.0 Flash"
+        },
+        "agent_marcus": {
+          "score": 94,
+          "role": "Data Engineer",
+          "model": "Cohere Mini"
+        },
+        "agent_devon": {
+          "score": 95,
+          "role": "Backend Engineer",
+          "model": "Cohere Mini"
+        },
+        "agent_maya": {
+          "score": 96,
+          "role": "Frontend Specialist",
+          "model": "Recraft V4.1 Vector"
+        }
+      }
+    },
+    {
+      "buildId": "build_1785565900650",
+      "prompt": "build a tic tac toe game",
+      "timestamp": 1785565910836,
+      "durationMs": 10176,
+      "scores": {
+        "agent_alex": {
+          "score": 98,
+          "role": "Queen Architect",
+          "model": "NVIDIA Nemotron 550B"
+        },
+        "agent_elena": {
+          "score": 97,
+          "role": "Security Auditor",
+          "model": "NVIDIA Nemotron 550B"
+        },
+        "agent_sam": {
+          "score": 99,
+          "role": "QA Auditor",
+          "model": "Ling 3.0 Flash"
+        },
+        "agent_zara": {
+          "score": 96,
+          "role": "SRE Engineer",
+          "model": "Ling 3.0 Flash"
+        },
+        "agent_marcus": {
+          "score": 94,
+          "role": "Data Engineer",
+          "model": "Cohere Mini"
+        },
+        "agent_devon": {
+          "score": 95,
+          "role": "Backend Engineer",
+          "model": "Cohere Mini"
+        },
+        "agent_maya": {
+          "score": 96,
+          "role": "Frontend Specialist",
+          "model": "Recraft V4.1 Vector"
+        }
+      }
     }
   ],
   "componentBank": {},
@@ -553,6 +639,46 @@
     {
       "buildId": "build_1785565624252",
       "timestamp": 1785565638219,
+      "approved": true,
+      "score": 98,
+      "votes": {
+        "queen": {
+          "vote": "APPROVE",
+          "score": 98
+        },
+        "qa": {
+          "vote": "APPROVE",
+          "score": 99
+        },
+        "security": {
+          "vote": "APPROVE",
+          "score": 97
+        }
+      }
+    },
+    {
+      "buildId": "build_1785565900634",
+      "timestamp": 1785565909429,
+      "approved": true,
+      "score": 98,
+      "votes": {
+        "queen": {
+          "vote": "APPROVE",
+          "score": 98
+        },
+        "qa": {
+          "vote": "APPROVE",
+          "score": 99
+        },
+        "security": {
+          "vote": "APPROVE",
+          "score": 97
+        }
+      }
+    },
+    {
+      "buildId": "build_1785565900650",
+      "timestamp": 1785565910039,
       "approved": true,
       "score": 98,
       "votes": {
