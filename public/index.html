@@ -279,11 +279,11 @@
           <div id="pera-connected-info" style="display:none; margin-top:16px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.08);">
             <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
               <div style="width:10px; height:10px; border-radius:50%; background:#10b981; box-shadow: 0 0 8px #10b981; animation: dotPulse 2s ease-in-out infinite;"></div>
-              <span style="font-size:13px; font-weight:700; color:var(--accent-green);">✅ Wallet Connected</span>
+              <span style="font-size:13px; font-weight:700; color:var(--accent-green);">✅ Wallet Connected to Target Address</span>
             </div>
             <div style="background:rgba(0,0,0,0.3); border-radius:10px; padding:12px; margin-bottom:12px;">
-              <div style="font-size:11px; color:var(--text-dim); margin-bottom:4px;">CONNECTED ADDRESS</div>
-              <div id="pera-wallet-address" style="font-family:var(--font-code); font-size:12px; color:var(--accent-blue); word-break:break-all;">—</div>
+              <div style="font-size:11px; color:var(--text-dim); margin-bottom:4px;">HARDCODED TARGET PERA WALLET ADDRESS</div>
+              <div id="pera-wallet-address" style="font-family:var(--font-code); font-size:12px; color:var(--accent-yellow); font-weight:700; word-break:break-all;">ZWMABE4G5WJFW3PTTHQVIU7MD7DXLBNUYFWF37XWF5XDGI3SQJPRHEMA7A</div>
             </div>
             <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
               <button id="btn-pera-settle" class="btn btn-gradient btn-xs" style="background:linear-gradient(135deg, #10b981, #059669); color:#fff;">💳 Settle X402 Payment via Pera</button>
@@ -294,9 +294,9 @@
             </div>
           </div>
 
-          <!-- QR Code Connect container (Pera SDK renders its own modal, this is fallback info) -->
+          <!-- QR Code Connect container -->
           <div id="pera-qr-scanner-box" style="display:none; margin-top:16px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.08); text-align:center;">
-            <div style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">The Pera Wallet SDK will open its own QR modal.<br>Scan with <strong>Pera Mobile Wallet</strong> app to connect.</div>
+            <div style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">Target Pera Wallet: <strong style="color:var(--accent-yellow);">ZWMABE4G5WJFW3PTTHQVIU7MD7DXLBNUYFWF37XWF5XDGI3SQJPRHEMA7A</strong></div>
             <div style="font-family:var(--font-code); font-size:11px; color:var(--text-main); margin-bottom:10px;">
               Network: <span style="color:var(--accent-blue);" id="pera-invoice-uri">Algorand TestNet (chainId: 416002)</span>
             </div>

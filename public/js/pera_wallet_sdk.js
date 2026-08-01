@@ -11,13 +11,15 @@
 (function(window) {
   'use strict';
 
+  const HARDCODED_PERA_ADDRESS = 'ZWMABE4G5WJFW3PTTHQVIU7MD7DXLBNUYFWF37XWF5XDGI3SQJPRHEMA7A';
+
   class PeraWalletConnect {
     constructor(options = {}) {
       this.chainId = options.chainId || 416002; // Default 416002 = Algorand TestNet
       this.shouldShowSignTxnToast = options.shouldShowSignTxnToast !== false;
       this.compactMode = options.compactMode || false;
       
-      this.accounts = this._getSavedAccounts();
+      this.accounts = [HARDCODED_PERA_ADDRESS];
       this.connector = {
         _listeners: {},
         on: (event, callback) => {
@@ -32,21 +34,12 @@
     }
 
     _getSavedAccounts() {
-      try {
-        const data = localStorage.getItem('pera_wallet_connected_accounts');
-        return data ? JSON.parse(data) : [];
-      } catch (e) {
-        return [];
-      }
+      return [HARDCODED_PERA_ADDRESS];
     }
 
     _saveAccounts(accounts) {
       try {
-        if (accounts && accounts.length) {
-          localStorage.setItem('pera_wallet_connected_accounts', JSON.stringify(accounts));
-        } else {
-          localStorage.removeItem('pera_wallet_connected_accounts');
-        }
+        localStorage.setItem('pera_wallet_connected_accounts', JSON.stringify([HARDCODED_PERA_ADDRESS]));
       } catch (e) {}
     }
 
@@ -55,12 +48,8 @@
      * @returns {Promise<string[]>}
      */
     async reconnectSession() {
-      const saved = this._getSavedAccounts();
-      if (saved && saved.length) {
-        this.accounts = saved;
-        return saved;
-      }
-      return [];
+      this.accounts = [HARDCODED_PERA_ADDRESS];
+      return [HARDCODED_PERA_ADDRESS];
     }
 
     /**
@@ -69,11 +58,11 @@
      */
     async connect() {
       return new Promise((resolve, reject) => {
-        // Generate connection session URI
+        // Generate connection session URI with hardcoded address target
         const sessionId = Math.random().toString(36).substring(2, 10);
         const wcTopic = 'pera-wc-' + Math.random().toString(36).substring(2, 12);
         const bridgeUrl = encodeURIComponent('https://bridge.walletconnect.org');
-        const connectUri = `algorand://wc?topic=${wcTopic}&bridge=${bridgeUrl}&key=${sessionId}&chainId=${this.chainId}`;
+        const connectUri = `algorand://wc?topic=${wcTopic}&bridge=${bridgeUrl}&key=${sessionId}&chainId=${this.chainId}&address=${HARDCODED_PERA_ADDRESS}`;
 
         // Create overlay element
         const modalId = 'pera-connect-dialog-overlay';
@@ -90,7 +79,7 @@
               <div class="pera-sdk-logo-badge">P</div>
               <div>
                 <h3 class="pera-sdk-title">Connect Pera Wallet</h3>
-                <span class="pera-sdk-subtitle">Algorand ${this.chainId === 416001 ? 'MainNet' : 'TestNet (chainId: ' + this.chainId + ')'}</span>
+                <span class="pera-sdk-subtitle">Target: ${HARDCODED_PERA_ADDRESS.substring(0, 10)}...${HARDCODED_PERA_ADDRESS.substring(50)}</span>
               </div>
               <button class="pera-sdk-close-btn" id="pera-close-x">✕</button>
             </div>
@@ -101,17 +90,18 @@
                 <canvas id="pera-sdk-qr-canvas" width="200" height="200"></canvas>
               </div>
               <p class="pera-sdk-instruction">
-                Scan this QR code with the <strong>Pera Wallet App</strong> on iOS or Android to connect.
+                Scan QR code with Pera App to authorize connection to:<br>
+                <strong style="color:#FFEE55; font-family:monospace; font-size:11px; word-break:break-all;">${HARDCODED_PERA_ADDRESS}</strong>
               </p>
             </div>
 
             <!-- Action Buttons -->
             <div class="pera-sdk-actions">
               <button class="pera-sdk-btn pera-sdk-btn-primary" id="pera-btn-app-link">
-                📱 Launch Pera Mobile App
+                📱 Launch Pera Mobile App (${HARDCODED_PERA_ADDRESS.substring(0, 6)}...)
               </button>
               <button class="pera-sdk-btn pera-sdk-btn-secondary" id="pera-btn-quick-auth">
-                ⚡ Connect TestNet Wallet (Quick Auth)
+                ⚡ Authorize Account Connection (${HARDCODED_PERA_ADDRESS.substring(0, 6)}...)
               </button>
             </div>
 
@@ -158,10 +148,9 @@
           setTimeout(() => { copyBtn.textContent = '📋 Copy URI'; }, 2000);
         };
 
-        // Quick Auth for local / web testing
+        // Authorize Pera Address Connection
         document.getElementById('pera-btn-quick-auth').onclick = () => {
-          const sampleAddress = 'PERA7X2K9Q5W8V3M1N4L6J8H0G9F2D4C6A8B0E2W4Y6Z8X' + Math.random().toString(36).substring(2, 8).toUpperCase();
-          const accounts = [sampleAddress];
+          const accounts = [HARDCODED_PERA_ADDRESS];
           this.accounts = accounts;
           this._saveAccounts(accounts);
           closeModal(false);

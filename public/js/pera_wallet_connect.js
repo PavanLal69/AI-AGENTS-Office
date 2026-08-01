@@ -1,14 +1,9 @@
-/**
- * Pera Wallet Connect Integration
- * Uses the official @perawallet/connect SDK from https://github.com/perawallet/connect
- * 
- * SDK loaded via CDN: https://unpkg.com/@perawallet/connect@1.3.4/dist/index.umd.js
- * Exposes: window.PeraWalletConnect
- */
+const HARDCODED_PERA_ADDRESS = 'ZWMABE4G5WJFW3PTTHQVIU7MD7DXLBNUYFWF37XWF5XDGI3SQJPRHEMA7A';
+
 class PeraWalletIntegration {
   constructor() {
     this.peraWallet = null;
-    this.connectedAccounts = [];
+    this.connectedAccounts = [HARDCODED_PERA_ADDRESS];
     this.isConnected = false;
 
     this._initSDK();
@@ -208,14 +203,14 @@ class PeraWalletIntegration {
       const singleTxnGroup = [
         {
           txn: {
-            from: senderAddress,
-            to: 'PERA7X2K9Q5W8V3M1N4L6J8H0G9F2D4C6A8B0E2W4Y6Z8X',
+            from: HARDCODED_PERA_ADDRESS,
+            to: HARDCODED_PERA_ADDRESS,
             fee: txnParams ? txnParams['min-fee'] : 1000,
             firstRound: txnParams ? txnParams['last-round'] : 100000,
             lastRound: txnParams ? (txnParams['last-round'] + 1000) : 101000,
             note: new TextEncoder().encode('HTTP 402 Settlement - AI AGENTS Office')
           },
-          signers: [senderAddress]
+          signers: [HARDCODED_PERA_ADDRESS]
         }
       ];
 
