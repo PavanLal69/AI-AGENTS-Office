@@ -195,6 +195,22 @@ class MainApp {
     } else if (event === 'LAYOUT_UPDATED') {
       this.state = data;
       window.officeCanvas.setState(data);
+    } else if (event === 'AGENT_HIRED') {
+      // New agent joined — add to state and re-render
+      if (this.state && this.state.agents && data.agent) {
+        this.state.agents.push(data.agent);
+        window.officeCanvas.setState(this.state);
+        this.renderLeftGroupsTree();
+      }
+      console.log(`[Office] 🎉 ${data.message}`);
+    } else if (event === 'AGENT_FIRED') {
+      // Agent left — remove from state and re-render
+      if (this.state && this.state.agents) {
+        this.state.agents = this.state.agents.filter(a => a.id !== data.agentId);
+        window.officeCanvas.setState(this.state);
+        this.renderLeftGroupsTree();
+      }
+      console.log(`[Office] 🔴 ${data.message}`);
     }
   }
 
@@ -409,11 +425,22 @@ class MainApp {
         node.className = `agent-tree-node ${agent.id === window.officeCanvas.selectedAgentId ? 'active' : ''}`;
         node.setAttribute('data-id', agent.id);
 
-        const statusTime = agent.status === 'CODING' ? 'active' : (agent.status === 'EXECUTING' ? 'Bash' : '6m ago');
+        const statusMap = {
+          'CODING': { text: 'coding', dotClass: 'green' },
+          'THINKING': { text: 'thinking', dotClass: 'green' },
+          'EXECUTING': { text: 'executing', dotClass: 'green' },
+          'REVIEWING': { text: 'reviewing', dotClass: 'green' },
+          'MEETING': { text: 'in meeting', dotClass: 'gold' },
+          'BREAK': { text: 'on break', dotClass: 'orange' },
+          'COMPLETED': { text: 'done', dotClass: 'green' },
+          'FIRED': { text: 'leaving', dotClass: 'red' },
+          'IDLE': { text: 'idle', dotClass: 'green' }
+        };
+        const statusInfo = statusMap[agent.status] || { text: 'idle', dotClass: 'green' };
         const slug = agent.slug || agent.name.toLowerCase().replace(/\s+/g, '-');
 
         node.innerHTML = `
-          <span class="dot green"></span> ${slug} <span class="time">${statusTime}</span>
+          <span class="dot ${statusInfo.dotClass}"></span> ${slug} <span class="time">${statusInfo.text}</span>
         `;
 
         node.addEventListener('click', () => {

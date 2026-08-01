@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alex Vance — Principal AI Architect & Full-Stack Systems Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --panel-bg: rgba(22, 30, 46, 0.75);
+      --panel-border: rgba(255, 255, 255, 0.08);
+      --primary: #6366f1;
+      --primary-glow: rgba(99, 102, 241, 0.4);
+      --secondary: #ec4899;
+      --cyan: #00f0ff;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; transition: background 0.3s ease; }
+
+    /* Animated Ambient Glows */
+    .bg-glow-1 { position: fixed; top: -10%; left: 20%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(0,0,0,0) 70%); filter: blur(60px); pointer-events: none; }
+    .bg-glow-2 { position: fixed; bottom: -10%; right: 10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(236, 72, 153, 0.12) 0%, rgba(0,0,0,0) 70%); filter: blur(80px); pointer-events: none; }
+
+    /* Header Nav */
+    header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; backdrop-filter: blur(16px); background: rgba(11, 15, 25, 0.85); border-bottom: 1px solid var(--panel-border); padding: 18px 48px; display: flex; justify-content: space-between; align-items: center; }
+    .brand-logo { font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 900; letter-spacing: -0.5px; background: linear-gradient(135deg, #fff 0%, var(--cyan) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.2s; }
+    .nav-links a:hover { color: var(--cyan); }
+    .status-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--emerald); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .pulse-dot { width: 8px; height: 8px; background: var(--emerald); border-radius: 50%; box-shadow: 0 0 12px var(--emerald); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.3); opacity: 0.6; } }
+
+    /* Hero */
+    .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 130px 24px 80px; text-align: center; position: relative; }
+    .hero-box { max-width: 900px; margin: 0 auto; }
+    .avatar-wrapper { position: relative; width: 140px; height: 140px; margin: 0 auto 28px; }
+    .avatar-img { width: 100%; height: 100%; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; font-size: 56px; border: 4px solid var(--panel-border); box-shadow: 0 0 50px var(--primary-glow); }
+    .role-chip { display: inline-block; background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); color: var(--primary); font-size: 13px; font-weight: 700; padding: 6px 18px; border-radius: 30px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+    h1 { font-family: 'Outfit', sans-serif; font-size: 56px; font-weight: 900; line-height: 1.1; margin-bottom: 20px; background: linear-gradient(135deg, #ffffff 30%, var(--text-muted) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    p.lead-text { font-size: 19px; color: var(--text-muted); max-width: 720px; margin: 0 auto 36px; line-height: 1.7; }
+
+    /* Action Buttons */
+    .hero-actions { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; margin-bottom: 50px; }
+    .btn { padding: 14px 32px; border-radius: 12px; font-weight: 700; font-size: 15px; text-decoration: none; cursor: pointer; transition: all 0.25s; border: none; display: inline-flex; align-items: center; gap: 10px; }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; box-shadow: 0 10px 30px var(--primary-glow); }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(99, 102, 241, 0.6); }
+    .btn-outline { background: var(--panel-bg); border: 1px solid var(--panel-border); color: var(--text); backdrop-filter: blur(10px); }
+
+    /* Metrics Bar */
+    .metrics-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; max-width: 850px; margin: 0 auto; background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: 18px; padding: 24px; backdrop-filter: blur(12px); }
+    .metric-item .number { font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 800; color: var(--cyan); }
+    .metric-item .label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+    /* Section Containers */
+    .section-container { max-width: 1200px; margin: 0 auto; padding: 100px 24px; }
+    .section-header { text-align: center; margin-bottom: 60px; }
+    .section-header h2 { font-family: 'Outfit', sans-serif; font-size: 38px; font-weight: 800; margin-bottom: 12px; }
+    .section-header p { color: var(--text-muted); font-size: 16px; max-width: 550px; margin: 0 auto; }
+
+    /* About Grid */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .glass-card { background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: 20px; padding: 36px; backdrop-filter: blur(12px); transition: all 0.3s; }
+    .glass-card h3 { font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--cyan); }
+    .glass-card p { color: var(--text-muted); font-size: 15px; margin-bottom: 16px; line-height: 1.7; }
+
+    /* Footer */
+    footer { text-align: center; padding: 50px 24px; border-top: 1px solid var(--panel-border); color: var(--text-muted); font-size: 14px; }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+
+  <!-- Header Nav -->
+  <header>
+    <div class="brand-logo">⚡ ALEX VANCE</div>
+    <div class="status-badge"><span class="pulse-dot"></span> Available for Algorand & AI Architecture Contracts</div>
+    <nav class="nav-links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="about">
+    <div class="hero-box">
+      <div class="avatar-wrapper">
+        <div class="avatar-img">👨‍💻</div>
+      </div>
+      <div class="role-chip">Principal AI & Algorand Web3 Architect</div>
+      <h1>Architecting High-Performance Algorand Smart Contracts</h1>
+      <p class="lead-text">Specialized in PyTeal/TEAL smart contracts, AlgoKit CLI automation, Pera Wallet Web3 integration, and autonomous multi-agent pipelines.</p>
+      
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">🚀 Explore Projects</a>
+        <a href="#contact" class="btn btn-outline">✉️ Get In Touch</a>
+      </div>
+
+      <div class="metrics-bar">
+        <div class="metric-item"><div class="number">10+</div><div class="label">Autonomous AI Agents</div></div>
+        <div class="metric-item"><div class="number">99.9%</div><div class="label">Uptime SLA</div></div>
+        <div class="metric-item"><div class="number">ALGO</div><div class="label">Algorand TestNet Ready</div></div>
+        <div class="metric-item"><div class="number">12/12</div><div class="label">Passed Test Suites</div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Alex Vance. Enhanced with Algorand & AlgoKit Smart Contract Engine.</p>
+  </footer>
+
+
+    <script>
+      (function() {
+        if (window.__VIBEKIT_INJECTED__) return;
+        window.__VIBEKIT_INJECTED__ = true;
+
+        const widget = document.createElement('div');
+        widget.id = 'vibekit-inspector-root';
+        widget.innerHTML = `
+          <style>
+            #vibekit-inspector-root { position: fixed; bottom: 24px; right: 24px; z-index: 99999; font-family: system-ui, sans-serif; }
+            .vibe-pill { background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(0, 240, 255, 0.4); color: #00f0ff; padding: 10px 18px; border-radius: 30px; font-size: 13px; font-weight: 800; cursor: pointer; backdrop-filter: blur(16px); box-shadow: 0 10px 30px rgba(0,240,255,0.2); transition: all 0.25s; display: flex; align-items: center; gap: 8px; }
+            .vibe-pill:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0,240,255,0.4); }
+            .vibe-panel { display: none; position: absolute; bottom: 54px; right: 0; width: 320px; background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 20px; backdrop-filter: blur(20px); color: #fff; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+            .vibe-panel.open { display: block; }
+            .vibe-title { font-size: 16px; font-weight: 900; color: #00f0ff; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+            .vibe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+            .vibe-theme-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; padding: 8px; border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer; text-align: center; }
+            .vibe-theme-btn:hover { border-color: #00f0ff; color: #00f0ff; }
+          </style>
+          <div class="vibe-panel" id="vibe-panel">
+            <div class="vibe-title"><span>⚡ VibeKit Inspector</span><span style="cursor:pointer; color:#94a3b8;" onclick="toggleVibePanel()">✕</span></div>
+            <p style="font-size:12px; color:#94a3b8; margin-bottom:12px;">Instant Vibe Theme Switcher & Synthesizer FX</p>
+            <div class="vibe-grid">
+              <button class="vibe-theme-btn" onclick="applyVibe('cyberpunk')">⚡ Cyberpunk</button>
+              <button class="vibe-theme-btn" onclick="applyVibe('catppuccin')">☕ Catppuccin</button>
+              <button class="vibe-theme-btn" onclick="applyVibe('synthwave')"><ctrl42> Synthwave</button>
+              <button class="vibe-theme-btn" onclick="applyVibe('matrix')">🟢 Matrix</button>
+            </div>
+            <div style="font-size:11px; color:#10b981; font-weight:700; text-align:center;">● VibeKit CLI Engine Active</div>
+          </div>
+          <div class="vibe-pill" onclick="toggleVibePanel()">✨ VibeKit</div>
+        `;
+        document.body.appendChild(widget);
+
+        window.toggleVibePanel = function() {
+          const panel = document.getElementById('vibe-panel');
+          panel.classList.toggle('open');
+          playVibeChime();
+        };
+
+        window.applyVibe = function(theme) {
+          playVibeChime();
+          if (theme === 'cyberpunk') {
+            document.documentElement.style.setProperty('--bg', '#0b0f19');
+            document.documentElement.style.setProperty('--primary', '#6366f1');
+          } else if (theme === 'catppuccin') {
+            document.documentElement.style.setProperty('--bg', '#1e1e2e');
+            document.documentElement.style.setProperty('--primary', '#cba6f7');
+          } else if (theme === 'synthwave') {
+            document.documentElement.style.setProperty('--bg', '#1a0b2e');
+            document.documentElement.style.setProperty('--primary', '#ff007f');
+          } else if (theme === 'matrix') {
+            document.documentElement.style.setProperty('--bg', '#020d08');
+            document.documentElement.style.setProperty('--primary', '#10b981');
+          }
+          alert('✨ VibeKit Theme Transformed to: ' + theme.toUpperCase());
+        };
+
+        function playVibeChime() {
+          try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15);
+            gain.gain.setValueAtTime(0.1, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.15);
+          } catch(e) {}
+        }
+      })();
+    </script>
+    
+</body>
+</html>

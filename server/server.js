@@ -272,6 +272,46 @@ app.post('/api/layout/save', (req, res) => {
   res.json({ success: true });
 });
 
+// ─── HIRING & FIRING API ENDPOINTS ─────────────────────────────────────
+
+// Get available candidates for hiring
+app.get('/api/hiring/candidates', (req, res) => {
+  res.json({ candidates: agentManager.getCandidatePool() });
+});
+
+// Hire a new agent from the candidate pool
+app.post('/api/hiring/hire', (req, res) => {
+  const { candidateIndex } = req.body;
+  if (candidateIndex === undefined || candidateIndex === null) {
+    return res.status(400).json({ error: 'Missing candidateIndex' });
+  }
+  const result = agentManager.hireAgent(candidateIndex);
+  if (result.success) {
+    res.json(result);
+  } else {
+    res.status(400).json(result);
+  }
+});
+
+// Fire an existing agent
+app.post('/api/hiring/fire', (req, res) => {
+  const { agentId } = req.body;
+  if (!agentId) {
+    return res.status(400).json({ error: 'Missing agentId' });
+  }
+  const result = agentManager.fireAgent(agentId);
+  if (result.success) {
+    res.json(result);
+  } else {
+    res.status(400).json(result);
+  }
+});
+
+// Get hire/fire history
+app.get('/api/hiring/history', (req, res) => {
+  res.json(agentManager.getHireFireHistory());
+});
+
 // Fallback to index.html for SPA
 app.use((req, res) => {
   res.sendFile(path.join(publicPath, 'index.html'));
@@ -286,5 +326,12 @@ server.listen(PORT, HOST, () => {
   console.log(` 🌐 Local Access: http://localhost:${PORT}`);
   console.log(` 🌐 Local Network (LAN): http://192.168.1.4:${PORT}`);
   console.log(` 🔑 Key Vault & Real-Time WebSockets Active`);
+  console.log(` 🤖 24/7 Autonomous Agent Activity Engine: ENABLED`);
   console.log(`=======================================================`);
+
+  // Start the 24/7 autonomous agent activity engine after a brief boot delay
+  setTimeout(() => {
+    agentManager.startAutonomousLifecycle();
+  }, 3000);
 });
+
