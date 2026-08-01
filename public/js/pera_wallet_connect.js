@@ -12,26 +12,30 @@ class PeraWalletIntegration {
   }
 
   _initSDK() {
-    try {
-      const PeraWalletConnect = window.PeraWalletConnect || window.perawallet?.PeraWalletConnect;
+    const init = () => {
+      try {
+        const PeraWalletConnect = window.PeraWalletConnectSDK || window.PeraWalletConnect || window.perawallet?.PeraWalletConnect;
 
-      if (!PeraWalletConnect) {
-        console.error('[PeraWallet] @perawallet/connect SDK not found on window.');
-        this._setStatusText('⚠️ SDK missing — refresh page');
-        return;
+        if (!PeraWalletConnect) {
+          console.warn('[PeraWallet] Waiting for PeraWalletConnect ESM module to load...');
+          setTimeout(init, 300);
+          return;
+        }
+
+        this.peraWallet = new PeraWalletConnect({
+          chainId: 416002,  // Algorand TestNet
+          shouldShowSignTxnToast: true
+        });
+
+        console.log('[PeraWallet] ✅ @perawallet/connect SDK initialized (TestNet, chainId: 416002)');
+        this._setStatusText('✅ SDK Ready — Click "Connect Pera Wallet" to link your wallet');
+      } catch (err) {
+        console.error('[PeraWallet] SDK initialization error:', err);
+        this._setStatusText('⚠️ SDK init error — check console');
       }
+    };
 
-      this.peraWallet = new PeraWalletConnect({
-        chainId: 416002,  // Algorand TestNet
-        shouldShowSignTxnToast: true
-      });
-
-      console.log('[PeraWallet] ✅ @perawallet/connect SDK initialized (TestNet, chainId: 416002)');
-      this._setStatusText('✅ SDK Ready — Click "Connect Pera Wallet" to link your wallet');
-    } catch (err) {
-      console.error('[PeraWallet] SDK initialization error:', err);
-      this._setStatusText('⚠️ SDK init error — check console');
-    }
+    init();
   }
 
   _bindUI() {
