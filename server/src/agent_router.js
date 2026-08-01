@@ -20,6 +20,9 @@ class AgentRouter {
   async runBuildPipeline(buildId, prompt, io) {
     console.log(`[AgentRouter] Starting Ruflo Swarm Pipeline Build #${buildId} for: "${prompt}"`);
 
+    // Synthesize the web application output IMMEDIATELY for instant preview on http://localhost:3005!
+    this.generateWebBuildOutputFiles(prompt);
+
     const previewPort = buildOutputServer.startPreviewServer();
     const localhostUrl = `http://localhost:${previewPort}`;
 

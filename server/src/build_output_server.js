@@ -14,10 +14,10 @@ function ensureBuildOutputDir() {
   }
 
   const indexPath = path.join(BUILD_OUTPUT_DIR, 'index.html');
-  // If file doesn't exist, generate default master portfolio
+  // If file doesn't exist, generate default application
   if (!fs.existsSync(indexPath)) {
     const webGenerator = require('./web_generator');
-    webGenerator.generateFullWebApplication('Build a Personal Portfolio Website', BUILD_OUTPUT_DIR);
+    webGenerator.generateFullWebApplication('build a tic tac toe game', BUILD_OUTPUT_DIR);
   }
 }
 
