@@ -11,16 +11,15 @@ function generateFullWebApplication(prompt, outputDir) {
 
   let htmlContent = '';
 
-  if (lower.includes('algorand') || lower.includes('algokit') || lower.includes('teal') || lower.includes('pyteal') || lower.includes('pera') || lower.includes('algo')) {
-    htmlContent = generateAlgorandDAppHTML(rawPrompt);
-  } else if (lower.includes('portfolio') || lower.includes('resume') || lower.includes('personal')) {
+  if (lower.includes('portfolio') || lower.includes('resume') || lower.includes('personal')) {
     htmlContent = generateFullPortfolioHTML(rawPrompt);
   } else if (lower.includes('shop') || lower.includes('store') || lower.includes('ecommerce') || lower.includes('cart') || lower.includes('sneaker') || lower.includes('buy') || lower.includes('netflix')) {
     htmlContent = generateFullEcommerceAppHTML(rawPrompt);
   } else if (lower.includes('game') || lower.includes('snake') || lower.includes('pong') || lower.includes('arcade')) {
     htmlContent = generateFullArcadeGameHTML(rawPrompt);
   } else {
-    htmlContent = generateFullPortfolioHTML(rawPrompt);
+    // Generates a custom Algorand/AlgoKit Web3 DApp tailored to rawPrompt!
+    htmlContent = generateAlgorandDAppHTML(rawPrompt);
   }
 
   // Inject VibeKit Inspector Widget Script before </body>
@@ -114,8 +113,8 @@ function generateAlgorandDAppHTML(prompt) {
   </header>
 
   <section class="hero">
-    <h1>Algorand & AlgoKit Smart Contract Studio</h1>
-    <p>Synthesized by 10 AI Agents. Deploy, test, and interact with PyTeal smart contracts on the official Algorand TestNet.</p>
+    <h1>${prompt || 'Algorand & AlgoKit Smart Contract Studio'}</h1>
+    <p>Synthesized by 10 AI Agents. Full Web3 App featuring PyTeal smart contracts, Pera Wallet integration, and Algorand TestNet blockchain state.</p>
   </section>
 
   <!-- Live Telemetry Stats -->

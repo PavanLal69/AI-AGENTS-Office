@@ -11,9 +11,10 @@
   
   <link rel="stylesheet" href="css/styles.css">
 
-  <!-- Official @perawallet/connect Browser SDK via esm.sh -->
+  <!-- Official @perawallet/connect Browser SDK via esm.sh bundle -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha3/0.8.0/sha3.min.js"></script>
   <script type="module">
-    import { PeraWalletConnect } from "https://esm.sh/@perawallet/connect@1.3.4";
+    import { PeraWalletConnect } from "https://esm.sh/@perawallet/connect@1.3.4?bundle";
     window.PeraWalletConnectSDK = PeraWalletConnect;
     console.log('[PeraConnectESM] ✅ Official @perawallet/connect ESM loaded on window.PeraWalletConnectSDK');
   </script>
