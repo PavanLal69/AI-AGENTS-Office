@@ -3,280 +3,324 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Algorand & AlgoKit Smart Contract App with Pera Wallet — Algorand & AlgoKit Web3 Studio</title>
+  <title>build a tic tac toe application — Interactive Web App</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@700;800;900&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0b0f19;
-      --card-bg: rgba(22, 30, 46, 0.85);
-      --border: rgba(255, 255, 255, 0.08);
-      --primary: #10b981;
-      --accent: #00f0ff;
-      --purple: #8b5cf6;
-      --amber: #f59e0b;
+      --card: rgba(22, 30, 46, 0.9);
+      --border: rgba(255, 255, 255, 0.1);
+      --x-color: #00f0ff;
+      --o-color: #ff2a85;
+      --accent: #10b981;
       --text: #f8fafc;
       --text-muted: #94a3b8;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; overflow-x: hidden; }
 
-    /* Header Nav */
-    header { position: sticky; top: 0; left: 0; width: 100%; z-index: 1000; backdrop-filter: blur(16px); background: rgba(11, 15, 25, 0.85); border-bottom: 1px solid var(--border); padding: 18px 48px; display: flex; justify-content: space-between; align-items: center; }
-    .brand { font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 900; background: linear-gradient(135deg, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    
-    .status-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--primary); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; }
-    .dot-pulse { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary); }
+    header { text-align: center; margin-bottom: 24px; }
+    header h1 { font-family: 'Outfit', sans-serif; font-size: 42px; font-weight: 900; background: linear-gradient(135deg, var(--x-color), var(--o-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; text-transform: capitalize; }
+    header p { color: var(--text-muted); font-size: 15px; }
 
-    .btn-pera { background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; padding: 10px 22px; border-radius: 20px; font-weight: 800; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4); }
-    .btn-pera:hover { opacity: 0.9; }
+    /* Controls & Mode Selection */
+    .controls-bar { display: flex; gap: 12px; margin-bottom: 24px; background: var(--card); border: 1px solid var(--border); padding: 8px; border-radius: 16px; backdrop-filter: blur(12px); }
+    .mode-btn { background: transparent; color: var(--text-muted); border: none; padding: 8px 18px; border-radius: 12px; font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.2s ease; }
+    .mode-btn.active { background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
 
-    /* Hero */
-    .hero { text-align: center; padding: 80px 24px 40px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(139, 92, 246, 0.15)); border-bottom: 1px solid var(--border); }
-    .hero h1 { font-family: 'Outfit', sans-serif; font-size: 44px; font-weight: 900; margin-bottom: 16px; text-transform: capitalize; }
-    .hero p { color: var(--text-muted); font-size: 17px; max-width: 750px; margin: 0 auto 30px; line-height: 1.6; }
+    /* Scoreboard */
+    .scoreboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 440px; width: 100%; margin-bottom: 24px; }
+    .score-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; text-align: center; backdrop-filter: blur(12px); }
+    .score-title { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .score-val { font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 800; margin-top: 4px; }
+    .score-x { color: var(--x-color); }
+    .score-o { color: var(--o-color); }
+    .score-tie { color: var(--accent); }
 
-    /* Wallet Stats Container */
-    .stats-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; max-width: 1200px; margin: -40px auto 40px; padding: 0 24px; position: relative; z-index: 10; }
-    .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 24px; backdrop-filter: blur(12px); }
-    .stat-lbl { font-size: 13px; color: var(--text-muted); font-weight: 600; }
-    .stat-val { font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 800; color: var(--accent); margin-top: 8px; }
+    /* Turn Banner */
+    .turn-banner { font-size: 16px; font-weight: 700; margin-bottom: 20px; color: #fff; display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); padding: 8px 20px; border-radius: 20px; border: 1px solid var(--border); }
+    .turn-indicator { width: 12px; height: 12px; border-radius: 50%; display: inline-block; background: var(--x-color); box-shadow: 0 0 10px var(--x-color); }
 
-    /* Workflow Steps Grid */
-    .workflow-container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
-    .section-title { font-family: 'Outfit', sans-serif; font-size: 30px; font-weight: 800; text-align: center; margin-bottom: 12px; }
-    .section-desc { text-align: center; color: var(--text-muted); margin-bottom: 40px; font-size: 15px; }
+    /* Game Board Grid */
+    .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; width: 100%; max-width: 420px; height: 420px; background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 16px; backdrop-filter: blur(16px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+    .cell { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; font-size: 64px; font-weight: 900; cursor: pointer; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); user-select: none; }
+    .cell:hover:not(.taken) { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); transform: scale(1.02); }
+    .cell.x { color: var(--x-color); text-shadow: 0 0 20px rgba(0, 240, 255, 0.6); }
+    .cell.o { color: var(--o-color); text-shadow: 0 0 20px rgba(255, 42, 133, 0.6); }
+    .cell.win-cell { background: rgba(16, 185, 129, 0.2) !important; border-color: var(--accent) !important; animation: pulse 1s infinite alternate; }
 
-    .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
-    .step-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 28px; backdrop-filter: blur(12px); position: relative; }
-    .step-num { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.05); color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 800; padding: 4px 12px; border-radius: 12px; }
-    .step-card h3 { font-size: 19px; font-weight: 700; margin-bottom: 12px; color: var(--primary); }
-    .step-card p { color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 16px; }
-    .code-block { background: #050811; border: 1px solid var(--border); border-radius: 10px; padding: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #38bdf8; margin-bottom: 16px; overflow-x: auto; }
+    @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.05); } }
 
-    /* Interactive Contract Caller */
-    .caller-box { max-width: 800px; margin: 40px auto; background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 40px; backdrop-filter: blur(16px); text-align: center; }
-    .btn-action { background: linear-gradient(135deg, var(--primary), var(--accent)); color: #0b0f19; border: none; padding: 14px 32px; border-radius: 14px; font-weight: 800; font-size: 15px; cursor: pointer; }
+    /* Action Buttons */
+    .actions { display: flex; gap: 14px; margin-top: 28px; width: 100%; max-width: 420px; }
+    .btn { flex: 1; background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03)); border: 1px solid var(--border); color: #fff; padding: 14px; border-radius: 14px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
+    .btn-reset-game { background: linear-gradient(135deg, var(--x-color), #0284c7); color: #0b0f19; font-weight: 800; border: none; box-shadow: 0 4px 20px rgba(0, 240, 255, 0.3); }
 
-    /* Modal Overlay */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 3000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-    .modal-overlay.active { display: flex; }
-    .modal-card { background: #161e2e; border: 1px solid var(--border); border-radius: 24px; width: 90%; max-width: 520px; padding: 36px; }
+    /* Canvas Confetti */
+    #confetti-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; }
   </style>
 </head>
 <body>
 
+  <canvas id="confetti-canvas"></canvas>
+
   <header>
-    <div class="brand">🚀 Algorand & AlgoKit Smart Contract App with Pera Wallet</div>
-    <div class="status-badge"><span class="dot-pulse"></span> Connected to Algorand TestNet</div>
-    <button class="btn-pera" onclick="openPeraModal()">👛 Pera Wallet (<span id="wallet-state">Disconnected</span>)</button>
+    <h1>🎮 build a tic tac toe application</h1>
+    <p>Fully-Fledged 2-Player & Unbeatable AI Bot Tic Tac Toe Application</p>
   </header>
 
-  <section class="hero">
-    <h1>Algorand & AlgoKit Smart Contract App with Pera Wallet</h1>
-    <p>Synthesized by 10 AI Agents in real-time according to your prompt. Powered by PyTeal smart contracts, AlgoKit, and Algorand TestNet blockchain state.</p>
-  </section>
+  <div class="controls-bar">
+    <button class="mode-btn active" id="btn-pvp" onclick="setMode('pvp')">👥 2 Players</button>
+    <button class="mode-btn" id="btn-ai-easy" onclick="setMode('ai-easy')">🤖 AI (Easy)</button>
+    <button class="mode-btn" id="btn-ai-hard" onclick="setMode('ai-hard')">🔥 AI (Unbeatable)</button>
+  </div>
 
-  <!-- Live Telemetry Stats -->
-  <div class="stats-container">
-    <div class="stat-card">
-      <div class="stat-lbl">TestNet Account Address</div>
-      <div class="stat-val" id="addr-display" style="font-size: 14px;">ABCDE12345...XYZ</div>
+  <div class="scoreboard">
+    <div class="score-card">
+      <div class="score-title">Player X</div>
+      <div class="score-val score-x" id="score-x">0</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-lbl">TestNet ALGO Balance</div>
-      <div class="stat-val" id="algo-balance">100.00 ALGO</div>
+    <div class="score-card">
+      <div class="score-title">Ties</div>
+      <div class="score-val score-tie" id="score-tie">0</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-lbl">AlgoKit Smart Contract App ID</div>
-      <div class="stat-val" id="app-id">#992580122</div>
+    <div class="score-card">
+      <div class="score-title" id="o-title">Player O</div>
+      <div class="score-val score-o" id="score-o">0</div>
     </div>
   </div>
 
-  <!-- Application Architecture Steps -->
-  <div class="workflow-container">
-    <div class="section-title">🛠️ Synthesized Architecture for: "Algorand & AlgoKit Smart Contract App with Pera Wallet"</div>
-    <div class="section-desc">Automated AI Swarm Mesh Build & Blockchain Smart Contract Integration</div>
-
-    <div class="steps-grid">
-      <div class="step-card">
-        <span class="step-num">MODULE 1</span>
-        <h3>⚙️ Smart Contract & TEAL Bytecode</h3>
-        <p>PyTeal approval & clear state programs compiled to Algorand bytecode for <strong>Algorand & AlgoKit Smart Contract App with Pera Wallet</strong>.</p>
-        <div class="code-block">algokit init --name my-first-algorand-app<br/>algokit project run build</div>
-      </div>
-
-      <div class="step-card">
-        <span class="step-num">MODULE 2</span>
-        <h3>👛 Pera Wallet & TestNet Dispenser</h3>
-        <p>Funded deployment account with TestNet ALGO via Dispenser faucet for on-chain state execution.</p>
-        <button class="btn-action" style="font-size:12px; padding:8px 16px;" onclick="window.open('https://bank.testnet.algorand.network/', '_blank')">💧 Open TestNet Dispenser</button>
-      </div>
-
-      <div class="step-card">
-        <span class="step-num">MODULE 3</span>
-        <h3>🚀 On-Chain Deployment State</h3>
-        <p>Published smart contract to Algorand TestNet blockchain with verified global state schema.</p>
-        <div class="code-block">Application ID: 992580122<br/>TxID: TX_9VTSKW6VXSE</div>
-      </div>
-
-      <div class="step-card" style="grid-column: span 1 / -1;">
-        <span class="step-num">MODULE 4</span>
-        <h3>🎉 Real-Time Web Application Execution</h3>
-        <p>Active web application build responding live to prompt: <strong>"Algorand & AlgoKit Smart Contract App with Pera Wallet"</strong>.</p>
-        <div class="code-block">Status: READY | Port: 3005 | Pera Wallet & AlgoKit Active</div>
-      </div>
-    </div>
+  <div class="turn-banner" id="status-banner">
+    <span class="turn-indicator" id="turn-indicator"></span>
+    <span id="status-text">Player X's Turn</span>
   </div>
 
-  <!-- Interactive Smart Contract Execution Box -->
-  <div class="caller-box">
-    <h2>⚡ Interact with Live Application & Smart Contract</h2>
-    <p style="color:var(--text-muted); margin: 12px 0 24px;">Trigger state transitions and verify signatures for <strong>Algorand & AlgoKit Smart Contract App with Pera Wallet</strong> on Algorand TestNet.</p>
-    <button class="btn-action" onclick="callSmartContract()">🚀 Execute Algorand & AlgoKit Smart Contract App with Pera Wallet Action (App #992580122)</button>
+  <div class="board" id="board">
+    <div class="cell" data-index="0" onclick="handleCellClick(0)"></div>
+    <div class="cell" data-index="1" onclick="handleCellClick(1)"></div>
+    <div class="cell" data-index="2" onclick="handleCellClick(2)"></div>
+    <div class="cell" data-index="3" onclick="handleCellClick(3)"></div>
+    <div class="cell" data-index="4" onclick="handleCellClick(4)"></div>
+    <div class="cell" data-index="5" onclick="handleCellClick(5)"></div>
+    <div class="cell" data-index="6" onclick="handleCellClick(6)"></div>
+    <div class="cell" data-index="7" onclick="handleCellClick(7)"></div>
+    <div class="cell" data-index="8" onclick="handleCellClick(8)"></div>
   </div>
 
-  <!-- QR-Based Pera Wallet Login Modal Overlay -->
-  <div class="modal-overlay" id="pera-modal">
-    <div class="modal-card" style="max-width: 580px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <div style="width:36px; height:36px; border-radius:10px; background:#10b981; display:flex; align-items:center; justify-content:center; font-size:20px;">📱</div>
-          <div>
-            <h3 style="font-size:20px; font-weight:800; color:#fff;">Pera Wallet Connect</h3>
-            <span style="font-size:12px; color:var(--primary); font-weight:700;">Algorand TestNet Authentication</span>
-          </div>
-        </div>
-        <button style="background:none; border:none; color:var(--text-muted); font-size:22px; cursor:pointer;" onclick="closePeraModal()">✕</button>
-      </div>
-      <p style="color:var(--text-muted); font-size:13.5px; margin-bottom:20px; line-height:1.6;">Scan the QR code below using your <strong>Pera Mobile Wallet app</strong> to sign in & authorize smart contract transactions securely.</p>
-      
-      <!-- Interactive Canvas QR Code Box -->
-      <div style="background:#070a14; border:1px solid var(--border); border-radius:20px; padding:28px; text-align:center; position:relative; overflow:hidden;">
-        <div id="qr-status-banner" style="display:inline-flex; align-items:center; gap:8px; background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.4); color:var(--primary); padding:6px 16px; border-radius:20px; font-size:12px; font-weight:700; margin-bottom:20px;">
-          <span class="dot-pulse"></span> <span id="qr-status-text">Awaiting Pera Mobile Scan...</span>
-        </div>
-
-        <div style="background:#ffffff; border-radius:16px; padding:16px; width:220px; height:220px; margin:0 auto 20px; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
-          <canvas id="pera-qr-canvas" width="180" height="180"></canvas>
-        </div>
-
-        <div style="font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--text-muted);">
-          Session URI: <span style="color:var(--accent);" id="pera-session-uri">algorand://pera-walletconnect-session?id=8f92a4</span>
-        </div>
-        <div style="font-size:11px; color:var(--amber); margin-top:6px; font-weight:600;">⏱️ QR Session expires in <span id="qr-timer">04:59</span></div>
-      </div>
-
-      <div style="display:flex; gap:12px; margin-top:20px;">
-        <button class="btn-action" style="flex:1; justify-content:center; background:linear-gradient(135deg, #10b981, #059669);" onclick="simulateQRScan()">📷 Simulate Mobile Scan</button>
-        <button class="btn-action" style="background:rgba(255,255,255,0.08); border:1px solid var(--border); color:#fff;" onclick="copyPeraURI()">📋 Copy URI</button>
-      </div>
-    </div>
+  <div class="actions">
+    <button class="btn btn-reset-game" onclick="restartGame()">🔄 New Match</button>
+    <button class="btn" onclick="resetScores()">🧹 Reset Scores</button>
   </div>
 
   <script>
-    let isConnected = false;
-    let timerInterval = null;
+    let boardState = Array(9).fill('');
+    let currentPlayer = 'X';
+    let gameActive = true;
+    let gameMode = 'pvp'; // 'pvp', 'ai-easy', 'ai-hard'
+    let scores = { X: 0, O: 0, tie: 0 };
 
-    function drawPeraQRCode() {
-      const canvas = document.getElementById('pera-qr-canvas');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, 180, 180);
-      ctx.fillStyle = '#0f172a';
+    const winConditions = [
+      [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+      [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+      [0, 4, 8], [2, 4, 6]             // Diagonals
+    ];
 
-      // Draw stylized QR code pattern grid
-      const size = 15;
-      const step = 180 / size;
-      for (let r = 0; r < size; r++) {
-        for (let c = 0; c < size; c++) {
-          if ((r < 4 && c < 4) || (r < 4 && c > 10) || (r > 10 && c < 4)) {
-            // QR Finder pattern corners
-            if (r === 0 || r === 3 || c === 0 || c === 3 || (c === 14 || c === 11 || r === 0 || r === 3) && c >= 11 && r <= 3 || (r === 14 || r === 11 || c === 0 || c === 3) && r >= 11 && c <= 3) {
-              ctx.fillRect(c * step, r * step, step, step);
-            }
-          } else if (Math.sin(r * 3 + c * 7 + Date.now()/1000) > -0.2) {
-            ctx.fillRect(c * step + 1, r * step + 1, step - 2, step - 2);
+    function setMode(mode) {
+      gameMode = mode;
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(`btn-${mode}`).classList.add('active');
+      document.getElementById('o-title').textContent = mode.startsWith('ai') ? 'AI Bot (O)' : 'Player O';
+      restartGame();
+    }
+
+    function handleCellClick(index) {
+      if (boardState[index] !== '' || !gameActive) return;
+
+      makeMove(index, currentPlayer);
+
+      if (gameActive && gameMode.startsWith('ai') && currentPlayer === 'O') {
+        setTimeout(triggerAIMove, 400);
+      }
+    }
+
+    function makeMove(index, player) {
+      boardState[index] = player;
+      const cell = document.querySelector(`.cell[data-index="${index}"]`);
+      cell.textContent = player;
+      cell.classList.add(player.toLowerCase(), 'taken');
+
+      if (checkWin(player)) {
+        gameActive = false;
+        scores[player]++;
+        updateScores();
+        document.getElementById('status-text').textContent = `🎉 Player ${player} Wins!`;
+        triggerConfetti();
+        return;
+      }
+
+      if (boardState.every(c => c !== '')) {
+        gameActive = false;
+        scores.tie++;
+        updateScores();
+        document.getElementById('status-text').textContent = "🤝 It's a Tie Match!";
+        return;
+      }
+
+      currentPlayer = player === 'X' ? 'O' : 'X';
+      updateStatusBanner();
+    }
+
+    function triggerAIMove() {
+      if (!gameActive) return;
+
+      let move = -1;
+      if (gameMode === 'ai-easy') {
+        const available = boardState.map((val, idx) => val === '' ? idx : null).filter(val => val !== null);
+        move = available[Math.floor(Math.random() * available.length)];
+      } else {
+        // Minimax Unbeatable AI
+        move = getBestMinimaxMove();
+      }
+
+      if (move !== -1 && move !== undefined) {
+        makeMove(move, 'O');
+      }
+    }
+
+    function getBestMinimaxMove() {
+      let bestScore = -Infinity;
+      let bestMove = -1;
+
+      for (let i = 0; i < 9; i++) {
+        if (boardState[i] === '') {
+          boardState[i] = 'O';
+          let score = minimax(boardState, 0, false);
+          boardState[i] = '';
+          if (score > bestScore) {
+            bestScore = score;
+            bestMove = i;
           }
         }
       }
+      return bestMove;
     }
 
-    function openPeraModal() {
-      document.getElementById('pera-modal').classList.add('active');
-      drawPeraQRCode();
-      startQRTimer();
-    }
+    function minimax(board, depth, isMaximizing) {
+      if (evaluateWin(board, 'O')) return 10 - depth;
+      if (evaluateWin(board, 'X')) return depth - 10;
+      if (board.every(c => c !== '')) return 0;
 
-    function closePeraModal() {
-      document.getElementById('pera-modal').classList.remove('active');
-      if (timerInterval) clearInterval(timerInterval);
-    }
-
-    function startQRTimer() {
-      let seconds = 299;
-      const timerEl = document.getElementById('qr-timer');
-      if (timerInterval) clearInterval(timerInterval);
-      timerInterval = setInterval(() => {
-        seconds--;
-        if (seconds <= 0) { clearInterval(timerInterval); return; }
-        const m = Math.floor(seconds / 60).toString().padStart(2, '0');
-        const s = (seconds % 60).toString().padStart(2, '0');
-        if (timerEl) timerEl.textContent = `${m}:${s}`;
-      }, 1000);
-    }
-
-    function simulateQRScan() {
-      const banner = document.getElementById('qr-status-banner');
-      const text = document.getElementById('qr-status-text');
-      
-      text.textContent = 'QR Code Scanned! Authorizing...';
-      banner.style.background = 'rgba(245, 158, 11, 0.2)';
-      banner.style.borderColor = 'rgba(245, 158, 11, 0.5)';
-      banner.style.color = '#f59e0b';
-
-      setTimeout(() => {
-        isConnected = true;
-        text.textContent = '✓ Authenticated with Pera Wallet';
-        banner.style.background = 'rgba(16, 185, 129, 0.2)';
-        banner.style.borderColor = 'rgba(16, 185, 129, 0.6)';
-        banner.style.color = '#10b981';
-
-        document.getElementById('wallet-state').textContent = 'Pera Logged In (ABCDE...12345)';
-        document.getElementById('addr-display').textContent = 'ABCDE12345FGHIJKLMN67890PQRSTUVWXYZ123456';
-        document.getElementById('algo-balance').textContent = '100.00 ALGO';
-
-        setTimeout(() => {
-          alert('🎉 Pera Wallet Login Successful!
-
-Authenticated Address: ABCDE12345FGHIJKLMN67890PQRSTUVWXYZ123456
-Network: Algorand TestNet');
-          closePeraModal();
-        }, 600);
-      }, 1200);
-    }
-
-    function copyPeraURI() {
-      const uri = document.getElementById('pera-session-uri').textContent;
-      navigator.clipboard.writeText(uri);
-      alert('📋 Pera WalletConnect URI copied to clipboard!');
-    }
-
-    function callSmartContract() {
-      if (!isConnected) {
-        alert('⚠️ Please scan QR code with Pera Wallet first to authenticate.');
-        openPeraModal();
-        return;
+      if (isMaximizing) {
+        let best = -Infinity;
+        for (let i = 0; i < 9; i++) {
+          if (board[i] === '') {
+            board[i] = 'O';
+            best = Math.max(best, minimax(board, depth + 1, false));
+            board[i] = '';
+          }
+        }
+        return best;
+      } else {
+        let best = Infinity;
+        for (let i = 0; i < 9; i++) {
+          if (board[i] === '') {
+            board[i] = 'X';
+            best = Math.min(best, minimax(board, depth + 1, true));
+            board[i] = '';
+          }
+        }
+        return best;
       }
-      alert('⚡ Smart Contract Transaction Executed!
+    }
 
-Signed by: Pera Wallet (ABCDE...12345)
-TxID: TX_' + Math.random().toString(36).substring(2, 14).toUpperCase());
+    function evaluateWin(board, player) {
+      return winConditions.some(cond => cond.every(idx => board[idx] === player));
+    }
+
+    function checkWin(player) {
+      const winningCond = winConditions.find(cond => cond.every(idx => boardState[idx] === player));
+      if (winningCond) {
+        winningCond.forEach(idx => {
+          document.querySelector(`.cell[data-index="${idx}"]`).classList.add('win-cell');
+        });
+        return true;
+      }
+      return false;
+    }
+
+    function updateStatusBanner() {
+      const indicator = document.getElementById('turn-indicator');
+      const text = document.getElementById('status-text');
+      indicator.style.background = currentPlayer === 'X' ? 'var(--x-color)' : 'var(--o-color)';
+      indicator.style.boxShadow = `0 0 10px ${currentPlayer === 'X' ? 'var(--x-color)' : 'var(--o-color)'}`;
+      text.textContent = gameMode.startsWith('ai') && currentPlayer === 'O' ? "AI is thinking..." : `Player ${currentPlayer}'s Turn`;
+    }
+
+    function updateScores() {
+      document.getElementById('score-x').textContent = scores.X;
+      document.getElementById('score-o').textContent = scores.O;
+      document.getElementById('score-tie').textContent = scores.tie;
+    }
+
+    function restartGame() {
+      boardState = Array(9).fill('');
+      currentPlayer = 'X';
+      gameActive = true;
+      document.querySelectorAll('.cell').forEach(cell => {
+        cell.textContent = '';
+        cell.className = 'cell';
+      });
+      updateStatusBanner();
+    }
+
+    function resetScores() {
+      scores = { X: 0, O: 0, tie: 0 };
+      updateScores();
+      restartGame();
+    }
+
+    // Canvas Confetti Generator
+    function triggerConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const particles = Array.from({ length: 80 }, () => ({
+        x: Math.random() * canvas.width,
+        y: -20,
+        r: Math.random() * 8 + 4,
+        color: ['#00f0ff', '#ff2a85', '#10b981', '#f59e0b', '#8b5cf6'][Math.floor(Math.random() * 5)],
+        vx: (Math.random() - 0.5) * 4,
+        vy: Math.random() * 5 + 3,
+        rot: Math.random() * 360
+      }));
+
+      let frame = 0;
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.rot += 5;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rot * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.r / 2, -p.r / 2, p.r, p.r);
+          ctx.restore();
+        });
+
+        frame++;
+        if (frame < 120) requestAnimationFrame(animate);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      animate();
     }
   </script>
-
 
     <script>
       (function() {
