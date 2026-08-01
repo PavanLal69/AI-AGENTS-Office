@@ -18,30 +18,18 @@ class PeraWalletIntegration {
 
   _initSDK() {
     try {
-      // The UMD bundle exposes PeraWalletConnect on window
-      const PeraWalletConnect = window.PeraWalletConnect?.PeraWalletConnect 
-        || window.PeraWalletConnect 
-        || window.perawallet?.PeraWalletConnect;
+      const PeraWalletConnect = window.PeraWalletConnect || window.perawallet?.PeraWalletConnect;
 
       if (!PeraWalletConnect) {
-        console.warn('[PeraWallet] SDK not loaded yet. Attempting fallback...');
-        // Fallback: try the default export pattern
-        if (typeof window.PeraWalletConnect === 'function') {
-          this.peraWallet = new window.PeraWalletConnect({
-            chainId: 416002,  // Algorand TestNet
-            shouldShowSignTxnToast: true
-          });
-        } else {
-          console.error('[PeraWallet] @perawallet/connect SDK not found on window. Make sure the CDN script is loaded.');
-          this._setStatusText('⚠️ SDK loading... refresh page if not working');
-          return;
-        }
-      } else {
-        this.peraWallet = new PeraWalletConnect({
-          chainId: 416002,  // Algorand TestNet
-          shouldShowSignTxnToast: true
-        });
+        console.error('[PeraWallet] @perawallet/connect SDK not found on window.');
+        this._setStatusText('⚠️ SDK missing — refresh page');
+        return;
       }
+
+      this.peraWallet = new PeraWalletConnect({
+        chainId: 416002,  // Algorand TestNet
+        shouldShowSignTxnToast: true
+      });
 
       console.log('[PeraWallet] ✅ @perawallet/connect SDK initialized (TestNet, chainId: 416002)');
       this._setStatusText('✅ SDK Ready — Click "Connect Pera Wallet" to link your wallet');
